@@ -7,6 +7,10 @@ router.get('/', AccountController.getAccountInfo);
 
 router.get('/login', AccountController.login);
 
+router.post('/login', AccountController.checkLogin);
+
 router.get('/register', AccountController.register);
+
+router.post('/register', AccountController.addNewAccount);
 
 module.exports = router;

@@ -15,39 +15,45 @@
     <div class="container-fluid">
         <div class="row d-flex justify-content-center">
             <div class="col-lg-6">
-                <div class="register-form">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>First Name</label>
-                            <input class="form-control" type="text" placeholder="First Name">
-                        </div>
-                        <div class="col-md-6">
-                            <label>Last Name"</label>
-                            <input class="form-control" type="text" placeholder="Last Name">
-                        </div>
-                        <div class="col-md-6">
-                            <label>E-mail</label>
-                            <input class="form-control" type="text" placeholder="E-mail">
-                        </div>
-                        <div class="col-md-6">
-                            <label>Mobile No</label>
-                            <input class="form-control" type="text" placeholder="Mobile No">
-                        </div>
-                        <div class="col-md-6">
-                            <label>Password</label>
-                            <input class="form-control" type="text" placeholder="Password">
-                        </div>
-                        <div class="col-md-6">
-                            <label>Retype Password</label>
-                            <input class="form-control" type="text" placeholder="Password">
-                        </div>
-                        <div class="col-md-12">
-                            <button class="btn">Submit</button>
+                <h6 id="message"></h6>
+                <form action="/account/register" method="POST" id="fm-register">
+                    <div class="register-form">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>First Name</label>
+                                <input class="form-control" name="fisrt_name" type="text" placeholder="First Name">
+                            </div>
+                            <div class="col-md-6">
+                                <label>Last Name"</label>
+                                <input class="form-control" name="last_name" type="text" placeholder="Last Name">
+                            </div>
+                            <div class="col-md-6">
+                                <label>E-mail</label>
+                                <input id="email" class="form-control" name="email" type="text" placeholder="E-mail">
+                            </div>
+                            <div class="col-md-6">
+                                <label>Mobile No</label>
+                                <input class="form-control" name="mobile_number" type="text" placeholder="Mobile No">
+                            </div>
+                            <div class="col-md-6">
+                                <label>Password</label>
+                                <input id="password" class="form-control" name="password" type="text"
+                                    placeholder="Password">
+                            </div>
+                            <div class="col-md-6">
+                                <label>Retype Password</label>
+                                <input id="retype" class="form-control" type="text" placeholder="Password">
+                            </div>
+                            <div class="col-md-12">
+                                <button type="submit" class="btn">Submit</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
+
             </div>
         </div>
     </div>
 </div>
 <!-- Login End -->
+<script src="/javascripts/register"></script>
