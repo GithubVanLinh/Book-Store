@@ -17,6 +17,24 @@ const products = [
     catogery: ["story", "fantasy"],
     description: "expensive",
   },
+  {
+    id: "abcdefjl",
+    name: "alo",
+    price: 5000,
+    image:
+      "https://www.incimages.com/uploaded_files/image/1920x1080/getty_690360222_20001333165376734769_408521.jpg",
+    catogery: ["story", "fantasy"],
+    description: "expensive",
+  },
+  {
+    id: "abcdefjm",
+    name: "qwerty",
+    price: 1500,
+    image:
+      "https://www.incimages.com/uploaded_files/image/1920x1080/getty_690360222_20001333165376734769_408521.jpg",
+    catogery: ["story", "fantasy"],
+    description: "expensive",
+  },
 ];
 
 module.exports = {
