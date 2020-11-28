@@ -3,7 +3,8 @@ const ProductModel = require("../models/product.model");
 module.exports = {
   getProductList: (req, res, next) => {
     // console.log(ProductModel.get());
-    res.render("product/product-list", { productList: ProductModel.get() });
+    const bookData = ProductModel.getAllBook();
+    res.render("product/product-list", { productList:  bookData});
   },
   getProductById: (req, res, next) => {
       const id = req.params.id;
