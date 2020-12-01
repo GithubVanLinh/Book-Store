@@ -7,7 +7,6 @@ module.exports = function(){
     
     //Ép Mongoose sử dụng thư viện promise toàn cục
     mongoose.Promise = global.Promise;
-    
     const db = mongoose.connection;
     db.on("error", console.error.bind(console, "connection error:"));
     db.once("open", function () {

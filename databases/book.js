@@ -4,10 +4,6 @@ const Author = require("./author")
 const Category = require("./category");
 const { Schema } = mongoose;
 
-async function getFullAuthor(v) {
-  return await Author.findById(v);
-}
-
 const BookSchema = new Schema({
   id: {
     type: String,
@@ -52,7 +48,11 @@ const BookSchema = new Schema({
   category: [{
     type: mongoose.Types.ObjectId,
     ref: Category
-  }]
+  }],
+  image: {
+    type: String,
+    required: true
+  }
 });
 
 

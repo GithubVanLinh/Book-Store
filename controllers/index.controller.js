@@ -1,4 +1,4 @@
-const ProductModel = require('../models/product.model')
+const ProductModel = require('../models/book.model')
 
 module.exports = {
     getHomePage: (req, res, next)=>res.render('index', { title: 'Express', productList: ProductModel.getAllBook()}),
