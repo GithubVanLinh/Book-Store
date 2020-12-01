@@ -83,6 +83,15 @@ module.exports = {
     console.log(books);
     return books;
   },
+  getBookById: async (_id) =>{
+    const books = await Book.findOne({_id: _id})
+      .populate("author")
+      .populate("category")
+      .exec();
+    console.log(books);
+    return books;
+  }
+  ,
 
   // return -1 if ID has been existed
   createANewBook: async (aNewBookInfo) => {

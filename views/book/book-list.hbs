@@ -63,15 +63,15 @@
 
                     {{!-- Product list --}}
 
-                    {{#each productList}}
+                    {{#each bookList}}
                     <div class="col-md-4">
                         <div class="product-item">
                             <div class="product-title">
-                                <a href="/products/{{id}}/detail">{{name}}</a>
+                                <a href="/book/{{this._id}}/detail">{{this.name}}</a>
                             </div>
                             <div class="product-image">
-                                <a href="product-detail.html">
-                                    <img height="100px" width="200px" src={{image}} alt="Product Image">
+                                <a href="">
+                                    <img height="100px" width="200px" src={{this.image}} alt="Product Image">
                                 </a>
                                 <div class="product-action">
                                     <a href="#"><i class="fa fa-cart-plus"></i></a>
@@ -80,7 +80,7 @@
                                 </div>
                             </div>
                             <div class="product-price">
-                                <h3><span>$</span>{{price}}</h3>
+                                <h3><span>$</span>{{this.price}}</h3>
                                 <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
                             </div>
                         </div>

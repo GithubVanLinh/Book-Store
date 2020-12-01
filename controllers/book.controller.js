@@ -1,15 +1,17 @@
 const BookModel = require("../models/book.model");
 
 module.exports = {
-  getBookList: (req, res, next) => {
+  getBookList: async(req, res, next) => {
     // console.log(ProductModel.get());
-    const bookData = BookModel.getAllBook();
-    res.render("book/book-list", { book:  bookData});
+    console.log("get data...");
+    const bookData =await BookModel.getAllBook();
+    console.log("get success, Data is: ", bookData);
+    res.render("book/book-list", { bookList:  bookData});
   },
-  getBookById: (req, res, next) => {
+  getBookById: async(req, res, next) => {
       const id = req.params.id;
-    //   console.log(id);
-      const book = BookModel.getProductById(id);
+      console.log(id);
+      const book =await BookModel.getBookById(id);
       console.log(book);
     res.render("book/book-detail", { book});
   },
