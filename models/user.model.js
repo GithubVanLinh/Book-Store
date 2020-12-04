@@ -26,7 +26,7 @@ const User = require("../databases/user");
 //function
 checkEmailExists = async function (email) {
   console.log(email);
-  const isExists = await User.exists({ email: email });
+  const isExists = await User.exists({ email: email , show: true});
   console.log(isExists);
   return isExists;
 };
@@ -43,7 +43,7 @@ checkPassword=  (email, password) => {
 
 module.exports = {
   getAllUser: async () => {
-    const allUser = await User.find().exec();
+    const allUser = await User.find({show: true}).exec();
     console.log(allUser);
     return allUser;
   },

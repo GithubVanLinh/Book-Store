@@ -9,7 +9,11 @@ const BillSchema = new Schema({
   amount: Number,
   total_price: Number,
   day_trading: Date,
-  user: User
+  user: User,
+  show: {
+    type: Boolean,
+    default: true
+  }
 });
 
 module.exports = mongoose.model("Bill", BillSchema);

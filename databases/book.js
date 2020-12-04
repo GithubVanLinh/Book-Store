@@ -40,7 +40,7 @@ const BookSchema = new Schema({
     default: 0
   },
   publisher: String,
-  desciption: String,
+  description: String,
   comments: [{
     type: mongoose.Types.ObjectId,
     ref: Comment
@@ -52,10 +52,11 @@ const BookSchema = new Schema({
   image: {
     type: String,
     required: true
+  },
+  show: {
+    type: Boolean,
+    default: true
   }
 });
-
-
-
 
 module.exports = mongoose.model("Book", BookSchema);

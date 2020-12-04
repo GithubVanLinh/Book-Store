@@ -12,7 +12,11 @@ const UserSchema = new Schema({
     },
     full_name: String,
     address: String,
-    phone_number: String
+    phone_number: String,
+    show: {
+      type: Boolean,
+      default: true
+    }
 });
 
 module.exports = mongoose.model("User", UserSchema);

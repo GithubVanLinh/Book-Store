@@ -76,7 +76,7 @@ async function validateBookInfo(bookInfo) {
 
 module.exports = {
   getAllBook: async () => {
-    const books = await Book.find({})
+    const books = await Book.find({show: true})
       .populate("author")
       .populate("category")
       .exec();
@@ -84,7 +84,7 @@ module.exports = {
     return books;
   },
   getBookById: async (_id) =>{
-    const books = await Book.findOne({_id: _id})
+    const books = await Book.findOne({_id: _id, show: true})
       .populate("author")
       .populate("category")
       .exec();
@@ -146,7 +146,7 @@ module.exports = {
 
   deleteABook: async (id)=>{
     try {
-      const res = await Book.findByIdAndDelete(id);
+      const res = await Book.findByIdAndUpdate(id, {show: false});
       return res;
     } catch (error) {
       console.log("wrong");

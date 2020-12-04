@@ -6,7 +6,7 @@ module.exports = {
         return commentRes;
     },
     getAllComment: async ()=>{
-        const comments =await Comment.find({}).exec();
+        const comments =await Comment.find({show: true}).exec();
         console.log("comment list: ", comments);
         return comments;
     }

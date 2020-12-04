@@ -7,6 +7,10 @@ const AuthorSchema = new Schema({
     required: true
   },
   description: String,
+  show: {
+    type: Boolean,
+    default: true
+  }
 });
 
 module.exports = mongoose.model("Author", AuthorSchema);

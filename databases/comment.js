@@ -15,6 +15,10 @@ const CommentSchema = new Schema({
   content: {
     type: String,
     required: true
+  },
+  show: {
+    type: Boolean,
+    default: true
   }
 });
 
