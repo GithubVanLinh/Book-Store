@@ -1,7 +1,7 @@
 module.exports = function(){
     const mongoose = require("mongoose");
     mongoose.connect(
-      process.env.DB_URL,
+      process.env.DB_URL || "mongodb+srv://admin:admin@cluster0.gxzcs.mongodb.net/book-store?retryWrites=true&w=majority",
       { useNewUrlParser: true, useUnifiedTopology: true }
     );
     
