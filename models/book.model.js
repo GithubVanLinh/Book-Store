@@ -3,6 +3,8 @@ const Author = require("../databases/author");
 const Category = require("../databases/category");
 const mongoose = require("mongoose");
 
+const LIMIT = 2;
+
 //True if exists
 async function CheckBookExists(bookId) {
   console.log("book Id: ", bookId);
@@ -12,7 +14,7 @@ async function CheckBookExists(bookId) {
 
 async function find_idByid(bookId) {
   console.log("book Id: ", bookId);
-  const book = await Book.find({id: id});
+  const book = await Book.find({ id: id });
   return book._id;
 }
 
@@ -75,24 +77,30 @@ async function validateBookInfo(bookInfo) {
 }
 
 module.exports = {
-  getAllBook: async () => {
-    const books = await Book.find({show: true})
+  getAllBook: async(filter) => {
+    const query = { show: true };
+    const options = {
+      populate: ["author", "category"],
+      page: filter.page,
+      limit: LIMIT
+    };
+    console.log("pre", options);
+    let books;
+    await Book.paginate(query, options)
+    .then(function (result) {
+      console.log("result", result);
+      books = result
+    });
+    return books;
+  },
+  getBookById: async (_id) => {
+    const books = await Book.findOne({ _id: _id, show: true })
       .populate("author")
       .populate("category")
       .exec();
     console.log(books);
     return books;
   },
-  getBookById: async (_id) =>{
-    const books = await Book.findOne({_id: _id, show: true})
-      .populate("author")
-      .populate("category")
-      .exec();
-    console.log(books);
-    return books;
-  }
-  ,
-
   // return -1 if ID has been existed
   createANewBook: async (aNewBookInfo) => {
     console.log("Book info", aNewBookInfo);
@@ -130,7 +138,7 @@ module.exports = {
       console.log("book is valid");
 
       console.log("book is updating");
-      if(!aBook._id){
+      if (!aBook._id) {
         console.log("_id is required");
       }
       const bookDataRes = await Book.findByIdAndUpdate(aBook._id, aBook);
@@ -144,13 +152,13 @@ module.exports = {
     }
   },
 
-  deleteABook: async (id)=>{
+  deleteABook: async (id) => {
     try {
-      const res = await Book.findByIdAndUpdate(id, {show: false});
+      const res = await Book.findByIdAndUpdate(id, { show: false });
       return res;
     } catch (error) {
       console.log("wrong");
       return -1;
     }
-  }
+  },
 };

@@ -3,6 +3,7 @@ const Comment = require("./comment");
 const Author = require("./author")
 const Category = require("./category");
 const { Schema } = mongoose;
+var mongoosePaginate = require('mongoose-paginate-v2');
 
 const BookSchema = new Schema({
   id: {
@@ -58,5 +59,7 @@ const BookSchema = new Schema({
     default: true
   }
 });
+
+BookSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model("Book", BookSchema);
