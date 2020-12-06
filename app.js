@@ -9,13 +9,7 @@ const hbs = require('hbs');
 
 var app = express();
 
-
-hbs.registerHelper('ifeq', function (a, options) {
-  if (a) {
-    return options.fn(this);
-  }
-  return options.inverse(this);
-});
+require('./config/hbshelper')(hbs);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');

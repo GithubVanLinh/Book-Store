@@ -1,4 +1,5 @@
 const BookModel = require("../models/book.model");
+const CategoryModel = require("../models/category.model");
 
 module.exports = {
   getBookList: async(req, res, next) => {
@@ -6,6 +7,7 @@ module.exports = {
     const filter = {};
     console.log(req.query.page);
     filter.page = +req.query.page || 1;
+    filter.category = req.query.category;
     console.log("filter", filter);
 
     console.log("get data...");
@@ -13,6 +15,9 @@ module.exports = {
     console.log("get success, Data is: ", bookData.docs);
 
     bookData.bookList = bookData.docs;
+    bookData.category = filter.category;
+
+    bookData.categorys = await CategoryModel.getCategoryList();
 
     res.render("book/book-list", bookData);
   },
