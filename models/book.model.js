@@ -3,7 +3,7 @@ const Author = require("../databases/author");
 const Category = require("../databases/category");
 const mongoose = require("mongoose");
 
-const LIMIT = 2;
+const LIMIT = 6;
 
 //True if exists
 async function CheckBookExists(bookId) {
@@ -162,4 +162,33 @@ module.exports = {
       return -1;
     }
   },
+
+  searchBooks: async (keyword, page) => {
+    let query = { 
+      show: true,
+      name: new RegExp(keyword, 'gi')
+    };
+    const options = {
+      populate: ["author", "category"],
+      page: page,
+      limit: LIMIT,
+    };
+
+
+    // let results = [];
+    // let books = await Book.find({})
+    //   .populate('author')
+    //   .populate('category')
+    //   .exec();
+    // for (let i = 0; i < books.length; i++) {
+    //   let bookName = Search.removeAccents(books[i].name);
+    //   if (bookName.includes(keyword)) {
+    //     results.push(books[i]);
+    //   }
+    // }
+
+    const result = await Book.paginate(query, options);
+
+    return result;
+  }
 };

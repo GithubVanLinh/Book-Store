@@ -21,8 +21,10 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="product-search">
-                                        <input type="email" value="Search">
-                                        <button><i class="fa fa-search"></i></button>
+                                        <form action="/book/search" action="GET">
+                                            <input type="search" placeholder="Search" name="keyword">
+                                            <button type="submit"><i class="fa fa-search"></i></button>
+                                        </form>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -32,7 +34,7 @@
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <a href="/book" class="dropdown-item">tat ca</a>
                                                 {{#each categorys}}
-                                                    <a href="?category={{_id}}" class="dropdown-item">{{name}}</a>
+                                                <a href="?category={{_id}}" class="dropdown-item">{{name}}</a>
                                                 {{/each}}
                                             </div>
                                         </div>
@@ -72,7 +74,8 @@
                             </div>
                             <div class="product-image">
                                 <a href="">
-                                    <img height="100px" width="200px" src={{this.image}} alt="Product Image">
+                                    <img height="400px" width="200px" style="object-fit:contain " src={{this.image}}
+                                        alt="Product Image">
                                 </a>
                                 <div class="product-action">
                                     <a href="#"><i class="fa fa-cart-plus"></i></a>
@@ -92,40 +95,43 @@
                     <div class="col-md-12">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination justify-content-center">
-                              {{#ifUnd category}}
-                                
+                                {{#ifUnd category}}
+
                                 {{#ifeq hasPrevPage true}}
-                                  <li class="page-item">
-                                      <a class="page-link" href="?page={{prevPage}}" tabindex="-1">Prev</a>
-                                  </li>
-                                  <li class="page-item"><a class="page-link" href="?page={{prevPage}}">{{prevPage}}</a>
-                                  </li>
-                                  {{/ifeq}}
-                                  <li class="page-item active"><a class="page-link">{{page}}</a></li>
-                                  {{#ifeq hasNextPage true}}
-                                  <li class="page-item"><a class="page-link" href="?page={{nextPage}}">{{nextPage}}</a>
-                                  </li>
-                                  <li class="page-item">
-                                      <a class="page-link" href="?page={{nextPage}}">Next</a>
-                                  </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{prevPage}}" tabindex="-1">Prev</a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="?page={{prevPage}}">{{prevPage}}</a>
+                                </li>
                                 {{/ifeq}}
-                              {{else}}
+                                <li class="page-item active"><a class="page-link">{{page}}</a></li>
+                                {{#ifeq hasNextPage true}}
+                                <li class="page-item"><a class="page-link" href="?page={{nextPage}}">{{nextPage}}</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{nextPage}}">Next</a>
+                                </li>
+                                {{/ifeq}}
+                                {{else}}
                                 {{#ifeq hasPrevPage true}}
-                                  <li class="page-item">
-                                      <a class="page-link" href="?page={{prevPage}}&category={{category}}" tabindex="-1">Prev</a>
-                                  </li>
-                                  <li class="page-item"><a class="page-link" href="?page={{prevPage}}&category={{category}}">{{prevPage}}</a>
-                                  </li>
-                                  {{/ifeq}}
-                                  <li class="page-item active"><a class="page-link">{{page}}</a></li>
-                                  {{#ifeq hasNextPage true}}
-                                  <li class="page-item"><a class="page-link" href="?page={{nextPage}}&category={{category}}">{{nextPage}}</a>
-                                  </li>
-                                  <li class="page-item">
-                                      <a class="page-link" href="?page={{nextPage}}&category={{category}}">Next</a>
-                                  </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{prevPage}}&category={{category}}"
+                                        tabindex="-1">Prev</a>
+                                </li>
+                                <li class="page-item"><a class="page-link"
+                                        href="?page={{prevPage}}&category={{category}}">{{prevPage}}</a>
+                                </li>
                                 {{/ifeq}}
-                              {{/ifUnd}}
+                                <li class="page-item active"><a class="page-link">{{page}}</a></li>
+                                {{#ifeq hasNextPage true}}
+                                <li class="page-item"><a class="page-link"
+                                        href="?page={{nextPage}}&category={{category}}">{{nextPage}}</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{nextPage}}&category={{category}}">Next</a>
+                                </li>
+                                {{/ifeq}}
+                                {{/ifUnd}}
                             </ul>
                         </nav>
                     </div>
