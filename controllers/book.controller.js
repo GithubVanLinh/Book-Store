@@ -19,6 +19,8 @@ module.exports = {
 
     bookData.categorys = await CategoryModel.getCategoryList();
 
+    console.log("locals", req.locals);
+    console.log("locals", req.session);
     res.render("book/book-list", bookData);
   },
   getBookById: async(req, res, next) => {

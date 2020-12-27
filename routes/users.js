@@ -1,16 +1,27 @@
-var express = require('express');
+var express = require("express");
+const passport = require("passport");
 var router = express.Router();
-const userController = require('../controllers/user.controller')
+const userController = require("../controllers/user.controller");
+const {authLogin, authNotLogin} = require('../middlewares/auth.mdw');
 
 /* GET home page. */
-router.get('/', userController.getAccountInfo);
+router.get("/", userController.getAccountInfo);
 
-router.get('/login', userController.login);
+router.get("/login",authNotLogin, userController.login);
 
-router.post('/login', userController.checkLogin);
+router.post(
+  "/login",authNotLogin,
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true,
+  })
+);
 
-router.get('/register', userController.register);
+router.get("/register",authNotLogin, userController.register);
 
-router.post('/register', userController.addNewAccount);
+router.post("/register",authNotLogin, userController.addNewAccount);
+
+router.get("/logout", userController.logout);
 
 module.exports = router;

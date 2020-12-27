@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
 const CartController = require('../controllers/cart.controller');
+const {authLogin } = require('../middlewares/auth.mdw');
 
 /* GET home page. */
-router.get('/', CartController.getCart)
+router.get('/',authLogin, CartController.getCart)
 
-router.get('/checkout', CartController.checkout);
+router.get('/checkout',authLogin, CartController.checkout);
 
-router.get('/wishlist', CartController.wishlist);
+router.get('/wishlist',authLogin, CartController.wishlist);
 module.exports = router;

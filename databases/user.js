@@ -13,6 +13,7 @@ const UserSchema = new Schema({
     full_name: String,
     address: String,
     phone_number: String,
+    salt: String,
     show: {
       type: Boolean,
       default: true
