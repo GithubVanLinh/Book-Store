@@ -1,5 +1,10 @@
+const nodemailer = require("nodemailer");
+
+var path = require("path");
+
 const User = require("../databases/user");
-const passport = require('passport');
+const VertifyModel = require("../models/vertify.model");
+const passport = require("passport");
 const crypto = require("crypto");
 
 //function
@@ -8,6 +13,16 @@ async function checkEmailExists(email) {
   const isExists = await User.exists({ email: email, show: true });
   console.log("checkEmailExists.", "isExists: ", isExists);
   return isExists;
+}
+
+function makeid(length) {
+  var result           = '';
+  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
 }
 
 //return 1 if vaild
@@ -26,8 +41,8 @@ var hashPwd = function hashPwd(salt, pwd) {
 };
 
 module.exports = {
-  getUserInfo: async(email)=>{
-    const usrData = await User.findOne({email: email, show: true});
+  getUserInfo: async (email) => {
+    const usrData = await User.findOne({ email: email, show: true });
     return usrData;
   },
   getAllUser: async () => {
@@ -37,12 +52,12 @@ module.exports = {
   },
 
   addNewAccount: async (accountInfo) => {
-    console.log("addNewAccount.", "accountInfo: ", accountInfo);;
+    console.log("addNewAccount.", "accountInfo: ", accountInfo);
 
     const newUser = accountInfo;
     console.log("addNewAccount.", "newUser: ", accountInfo);
 
-    const isEmailExists = await checkEmailExists(accountInfo.email)
+    const isEmailExists = await checkEmailExists(accountInfo.email);
 
     if (isEmailExists) {
       console.log("addNewAccount.", "Email has been used");
@@ -58,26 +73,72 @@ module.exports = {
 
     console.log("addNewAccount.", "newUserPassHash: ", accountInfo);
 
-    // Regist Email is not exists
-    const userRes = await User.create(newUser);
+    const keyId = makeid(10);
+
+    newUser.id = keyId;
+
+    // // Regist Email is not exists
+    // const userRes = await User.create(newUser);
+    const userRes = await VertifyModel.addNewVertify(newUser);
     console.log("addNewAccount.", "username: ", userRes);
-    return userRes;
+
+    //send mail
+
+    // create reusable transporter object using the default SMTP transport
+    let transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+          user: process.env.username,
+          pass: process.env.password
+      }
+  });
+
+  const host = "http://localhost:3000";
+
+  console.log(host);
+
+  const link =host+ "/users/vertify?id=" + keyId +"&email="+ userRes.email;
+    var message = {
+      from: "goi@gmail.com",
+      to: userRes.email,
+      subject: "confirm email",
+      text: link,
+      html: "<p>HTML version of the message <a href='" +link+"'>link</a></p>",
+    };
+
+    console.log("link", link);
+    // send mail with defined transport object
+    let info = await transporter.sendMail(message);
+
+    console.log("Message sent: %s", info.messageId);
+    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
+    // Preview only available when sending through an Ethereal account
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+
+    return 1;
   },
-  login: async (usr, pwd)=>{
+  register: async (user)=>{
+    console.log(user);
+    const res = await User.create(user);
+    return res;
+  }
+  ,
+  login: async (usr, pwd) => {
     const isEmailExists = await checkEmailExists(usr);
     if (isEmailExists) {
-      const usrData = await User.findOne({email: usr, show: true});
+      const usrData = await User.findOne({ email: usr, show: true });
       console.log("Login", "userData", usrData);
       console.log("login", "salt", usrData.salt);
       console.log("login", "pwd", pwd);
       const pass = hashPwd(usrData.salt, pwd);
-      console.log("login", "pass" , pass);
-      if (usrData.password === pass){
+      console.log("login", "pass", pass);
+      if (usrData.password === pass) {
         return 1;
-      } else{
+      } else {
         return 0;
       }
     }
     return -1;
-  }
+  },
 };

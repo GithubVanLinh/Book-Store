@@ -24,4 +24,6 @@ router.post("/register",authNotLogin, userController.addNewAccount);
 
 router.get("/logout", userController.logout);
 
+router.get("/vertify", userController.vertify)
+
 module.exports = router;
