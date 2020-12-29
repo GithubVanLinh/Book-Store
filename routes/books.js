@@ -10,5 +10,7 @@ router.get('/', BookController.getBookList);
 /* GET home page. */
 router.get('/:id/detail', BookController.getBookById);
 
-router.get('/search', BookController.searchBooks);
+router.post('/:id/comments', BookController.createComment);
+
+// router.get('/search', BookController.searchBooks);
 module.exports = router;

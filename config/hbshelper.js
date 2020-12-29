@@ -12,5 +12,11 @@ module.exports = function (hbs) {
         return options.fn(this);
     }
     return options.inverse(this);
+  });
+
+  hbs.registerHelper("get", (a, b, options) => {
+    if(a ){
+
+    }
   })
 };

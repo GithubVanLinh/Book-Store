@@ -78,9 +78,17 @@ async function validateBookInfo(bookInfo) {
 
 module.exports = {
   getAllBook: async (filter) => {
-    let query;
-    if (filter.category) query = { show: true, category: filter.category };
-    else query = { show: true };
+    let query = {};
+    query.show = true;
+    if (filter.category) {
+
+      query.category = filter.category;
+    }
+    if (filter.keyword) {
+      const keyword = filter.keyword;
+      query.name = new RegExp(keyword, 'gi');
+    }
+    // else query = { show: true };
     const options = {
       populate: ["author", "category"],
       page: filter.page,
@@ -164,7 +172,7 @@ module.exports = {
   },
 
   searchBooks: async (keyword, page) => {
-    let query = { 
+    let query = {
       show: true,
       name: new RegExp(keyword, 'gi')
     };
