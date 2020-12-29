@@ -21,6 +21,9 @@ module.exports = function () {
           console.log("passport", "userData", usrData);
           console.log("passport", "salt", usrData.salt);
           console.log("passport", "pwd", password);
+          if(usrData.isBlocked == true){
+            return done(null, false, {message: "User has been blocked"});
+          }
           const pass = hashPwd(usrData.salt, password);
           console.log("passport", "pass", pass);
           if (usrData.password === pass) {

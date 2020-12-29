@@ -14,6 +14,10 @@ const UserSchema = new Schema({
     address: String,
     phone_number: String,
     salt: String,
+    isBlocked: {
+        type: Boolean,
+        default: false
+    },
     show: {
       type: Boolean,
       default: true

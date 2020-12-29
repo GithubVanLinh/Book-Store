@@ -93,11 +93,9 @@ module.exports = {
       }
   });
 
-  const host = "http://localhost:3000";
+  console.log(process.env.host);
 
-  console.log(host);
-
-  const link =host+ "/users/vertify?id=" + keyId +"&email="+ userRes.email;
+  const link =process.env.host+ "/users/vertify?id=" + keyId +"&email="+ userRes.email;
     var message = {
       from: "goi@gmail.com",
       to: userRes.email,
