@@ -2,16 +2,10 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const CommentSchema = new Schema({
-  bookId: {
+  name: {
     type: String,
-    required: true
+    required: true,
   },
-  
-  userId: {
-    type: String,
-    required: true
-  },
-
   content: {
     type: String,
     required: true

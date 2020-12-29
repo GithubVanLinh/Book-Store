@@ -43,8 +43,12 @@ const BookSchema = new Schema({
   publisher: String,
   description: String,
   comments: [{
-    type: mongoose.Types.ObjectId,
-    ref: Comment
+    name: String,
+    content: String,
+    show: {
+      type: Boolean,
+      default: true
+    }
   }],
   category: [{
     type: mongoose.Types.ObjectId,

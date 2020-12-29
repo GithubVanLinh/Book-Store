@@ -21,7 +21,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="product-search">
-                                        <form action="/book/search" action="GET">
+                                        <form action="/book" action="GET">
                                             <input type="search" placeholder="Search" name="keyword">
                                             <button type="submit"><i class="fa fa-search"></i></button>
                                         </form>
@@ -95,7 +95,7 @@
                     <div class="col-md-12">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination justify-content-center">
-                                {{#ifUnd category}}
+                                {{!-- {{#ifUnd category}}
 
                                 {{#ifeq hasPrevPage true}}
                                 <li class="page-item">
@@ -110,9 +110,14 @@
                                 </li>
                                 <li class="page-item">
                                     <a class="page-link" href="?page={{nextPage}}">Next</a>
+                                    <a class="page-link" onclick="goNext()">Next</a>
+
                                 </li>
                                 {{/ifeq}}
+
+
                                 {{else}}
+
                                 {{#ifeq hasPrevPage true}}
                                 <li class="page-item">
                                     <a class="page-link" href="?page={{prevPage}}&category={{category}}"
@@ -128,10 +133,30 @@
                                         href="?page={{nextPage}}&category={{category}}">{{nextPage}}</a>
                                 </li>
                                 <li class="page-item">
-                                    <a class="page-link" href="?page={{nextPage}}&category={{category}}">Next</a>
+                                    <a onclick="goToPage({{nextPage}})" class="page-link" href="#">Next</a>
                                 </li>
                                 {{/ifeq}}
-                                {{/ifUnd}}
+                                {{/ifUnd}} --}}
+
+                                {{#ifeq hasPrevPage true}}
+                                <li class="page-item">
+                                    <a class="page-link" onclick="goToPage({{prevPage}})" href="#"
+                                        tabindex="-1">Prev</a>
+                                </li>
+                                <li class="page-item"><a onclick="goToPage({{prevPage}})" class="page-link"
+                                        href="#">{{prevPage}}</a>
+                                </li>
+                                {{/ifeq}}
+                                <li class="page-item active"><a class="page-link">{{page}}</a></li>
+                                {{#ifeq hasNextPage true}}
+                                <li class="page-item"><a class="page-link" onclick="goToPage({{nextPage}})"
+                                        href="#">{{nextPage}}</a>
+                                </li>
+                                <li class="page-item">
+                                    <a onclick="goToPage({{nextPage}})" class="page-link" href="#">Next</a>
+                                </li>
+                                {{/ifeq}}
+
                             </ul>
                         </nav>
                     </div>
@@ -240,3 +265,29 @@
         </div>
     </div>
     <!-- Brand End -->
+
+    <script>
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+        function goToPage(desPage) {
+            var url = window.location.search;
+            var page = getParameterByName('page');
+            if (page) {
+
+                var newurl = url.replace("page=" + page, "page=" + desPage.toString());
+            }
+            else {
+                var newurl = url + "&page=2"
+            }
+            console.log(newurl);
+            window.location.search = newurl;
+
+
+        }
+    </script>

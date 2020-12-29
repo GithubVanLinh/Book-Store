@@ -37,22 +37,26 @@
                     <div class="header-slider-item">
                         <img src="images/slider-1.jpg" alt="Slider Image" />
                         <div class="header-slider-caption">
-                            <p>Some text goes here that describes the image</p>
-                            <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Shop Now</a>
+                            <p>"Việc đọc rất quan trọng. Nếu bạn biết cách đọc, cả thế giới sẽ mở ra cho bạn.” <br>
+                                <b>Barack Obama</b></p>
+
                         </div>
                     </div>
                     <div class="header-slider-item">
                         <img src="images/slider-2.jpg" alt="Slider Image" />
                         <div class="header-slider-caption">
-                            <p>Some text goes here that describes the image</p>
-                            <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Shop Now</a>
+                            <p>"Tất cả những gì con người làm, nghĩ hoặc trở thành: được bảo tồn một cách kỳ diệu trên
+                                những trang sách.” <br> <b> Thomas
+                                    Carlyle</b></p>
+
                         </div>
                     </div>
                     <div class="header-slider-item">
                         <img src="images/slider-3.jpg" alt="Slider Image" />
                         <div class="header-slider-caption">
-                            <p>Some text goes here that describes the image</p>
-                            <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Shop Now</a>
+                            <p>S"Chính từ sách mà những người khôn ngoan tìm được sự an ủi khỏi những rắc rối của cuộc
+                                đời.” <br> <b>Victor Hugo</b></p>
+
                         </div>
                     </div>
                 </div>
@@ -79,18 +83,18 @@
 <!-- Main Slider End -->
 
 <!-- Brand Start -->
-<div class="brand">
-    <div class="container-fluid">
-        <div class="brand-slider">
-            <div class="brand-item"><img src="images/brand-1.png" alt=""></div>
-            <div class="brand-item"><img src="images/brand-2.png" alt=""></div>
-            <div class="brand-item"><img src="images/brand-3.png" alt=""></div>
-            <div class="brand-item"><img src="images/brand-4.png" alt=""></div>
-            <div class="brand-item"><img src="images/brand-5.png" alt=""></div>
-            <div class="brand-item"><img src="images/brand-6.png" alt=""></div>
+    {{!-- <div class="brand">
+        <div class="container-fluid">
+            <div class="brand-slider">
+                <div class="brand-item"><img src="images/brand-1.png" alt=""></div>
+                <div class="brand-item"><img src="images/brand-2.png" alt=""></div>
+                <div class="brand-item"><img src="images/brand-3.png" alt=""></div>
+                <div class="brand-item"><img src="images/brand-4.png" alt=""></div>
+                <div class="brand-item"><img src="images/brand-5.png" alt=""></div>
+                <div class="brand-item"><img src="images/brand-6.png" alt=""></div>
+            </div>
         </div>
-    </div>
-</div>
+    </div> --}}
 <!-- Brand End -->
 
 <!-- Feature Start-->
@@ -354,34 +358,34 @@
                 </div>
             </div> --}}
             {{#each productList}}
-                <div class="col-md-4">
-                    <div class="product-item">
-                        <div class="product-title">
-                            <a href="/products/{{id}}/detail">{{name}}</a>
-                                <div class="ratting">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                        </div>
-                        <div class="product-image">
-                            <a href="product-detail.html">
-                                <img height="100px" width="200px" src={{image}} alt="Product Image">
-                            </a>
-                            <div class="product-action">
-                                <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                <a href="#"><i class="fa fa-heart"></i></a>
-                                <a href="#"><i class="fa fa-search"></i></a>
-                            </div>
-                        </div>
-                        <div class="product-price">
-                            <h3><span>$</span>{{price}}</h3>
-                            <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+            <div class="col-md-4">
+                <div class="product-item">
+                    <div class="product-title">
+                        <a href="/products/{{id}}/detail">{{name}}</a>
+                        <div class="ratting">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
                         </div>
                     </div>
+                    <div class="product-image">
+                        <a href="product-detail.html">
+                            <img height="100px" width="200px" src={{image}} alt="Product Image">
+                        </a>
+                        <div class="product-action">
+                            <a href="#"><i class="fa fa-cart-plus"></i></a>
+                            <a href="#"><i class="fa fa-heart"></i></a>
+                            <a href="#"><i class="fa fa-search"></i></a>
+                        </div>
+                    </div>
+                    <div class="product-price">
+                        <h3><span>$</span>{{price}}</h3>
+                        <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                    </div>
                 </div>
+            </div>
             {{/each}}
         </div>
     </div>
@@ -554,34 +558,34 @@
                 </div>
             </div> --}}
             {{#each productList}}
-                <div class="col-md-4">
-                    <div class="product-item">
-                        <div class="product-title">
-                            <a href="/products/{{id}}/detail">{{name}}</a>
-                                <div class="ratting">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                        </div>
-                        <div class="product-image">
-                            <a href="product-detail.html">
-                                <img height="100px" width="200px" src={{image}} alt="Product Image">
-                            </a>
-                            <div class="product-action">
-                                <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                <a href="#"><i class="fa fa-heart"></i></a>
-                                <a href="#"><i class="fa fa-search"></i></a>
-                            </div>
-                        </div>
-                        <div class="product-price">
-                            <h3><span>$</span>{{price}}</h3>
-                            <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+            <div class="col-md-4">
+                <div class="product-item">
+                    <div class="product-title">
+                        <a href="/products/{{id}}/detail">{{name}}</a>
+                        <div class="ratting">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
                         </div>
                     </div>
+                    <div class="product-image">
+                        <a href="product-detail.html">
+                            <img height="100px" width="200px" src={{image}} alt="Product Image">
+                        </a>
+                        <div class="product-action">
+                            <a href="#"><i class="fa fa-cart-plus"></i></a>
+                            <a href="#"><i class="fa fa-heart"></i></a>
+                            <a href="#"><i class="fa fa-search"></i></a>
+                        </div>
+                    </div>
+                    <div class="product-price">
+                        <h3><span>$</span>{{price}}</h3>
+                        <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                    </div>
                 </div>
+            </div>
             {{/each}}
         </div>
     </div>

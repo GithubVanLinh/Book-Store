@@ -5,7 +5,7 @@
   <title>{{title}}</title>
 
   <!-- Favicon -->
-  <link href="/images/favicon.ico" rel="icon">
+  <link href="/images/bookland.ico" rel="icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Source+Code+Pro:700,900&display=swap"
@@ -20,6 +20,7 @@
   <!-- Template Stylesheet -->
   <link href="/stylesheets/style.css" rel="stylesheet">
 </head>
+
 <body>
   <!-- Top bar Start -->
   <div class="top-bar">
@@ -99,9 +100,13 @@
         </div>
         <div class="col-md-6">
           <div class="search">
-            <input type="text" placeholder="Search">
-            <button><i class="fa fa-search"></i></button>
+            <form action="/book" action="GET">
+              <input type="text" placeholder="Search" name="keyword">
+              <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
           </div>
+
+
         </div>
         <div class="col-md-3">
           <div class="user">
