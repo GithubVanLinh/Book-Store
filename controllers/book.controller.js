@@ -3,7 +3,7 @@ const CategoryModel = require("../models/category.model");
 const Comment = require("../databases/comment");
 
 module.exports = {
-  getBookList: async(req, res, next) => {
+  getBookList: async (req, res, next) => {
     // console.log(ProductModel.get());
     const filter = {};
     console.log(req.query.page);
@@ -27,14 +27,21 @@ module.exports = {
     console.log("query", req.query);
     res.render("book/book-list", bookData);
   },
-  getBookById: async(req, res, next) => {
-      const id = req.params.id;
-      console.log(id);
-      const book =await BookModel.getBookById(id);
-      console.log(book);
-    res.render("book/book-detail", {book});
+  getBookById: async (req, res, next) => {
+    const id = req.params.id;
+    console.log(id);
+    //increase views by 1
+    
+    // const book = await BookModel.getBookById(id);
+    // console.log(book);
+    const book = await BookModel.getBookDetail(id);
+    const bookData = await BookModel.getAllBook({category: book.category[0]._id});
+    const relatedBooks = bookData.docs;
+
+    // res.send(relatedBooks);
+    res.render("book/book-detail", { book, relatedBooks });
   },
-   searchBooks: async (req, res, next) => {
+  searchBooks: async (req, res, next) => {
     let page = +req.query.page || 1;
 
     // const keyword = Search.removeAccents(req.query.keyword);
@@ -44,7 +51,7 @@ module.exports = {
     bookData.bookList = bookData.docs;
     // bookData.category = category;
     bookData.keyword = keyword;
-    
+
 
     // bookData.categories = await CategoryModel.getCategoryList();
     res.render("./book/book-list", bookData);
@@ -52,7 +59,7 @@ module.exports = {
 
   },
 
-  createComment: async (req,res,next) => {
+  createComment: async (req, res, next) => {
     const id = req.params.id;
     const book = await BookModel.getBookById(id);
     console.log(book);

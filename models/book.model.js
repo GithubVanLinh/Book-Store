@@ -109,6 +109,12 @@ module.exports = {
     console.log(books);
     return books;
   },
+  getBookDetail: async (_id) => {
+    return await Book.findOne({ _id: _id, show: true }, function (err, doc) {
+      doc.views = doc.views + 1;
+      doc.save();
+    })
+  },
   // return -1 if ID has been existed
   createANewBook: async (aNewBookInfo) => {
     console.log("Book info", aNewBookInfo);
