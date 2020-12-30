@@ -10,6 +10,7 @@ module.exports = {
     filter.page = +req.query.page || 1;
     filter.category = req.query.category;
     filter.keyword = req.query.keyword;
+    filter.pricerange = req.query.p;
     console.log("filter", filter);
 
     console.log("get data...");
