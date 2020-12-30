@@ -88,7 +88,6 @@ module.exports = {
       const keyword = filter.keyword;
       query.name = new RegExp(keyword, 'gi');
     }
-    // else query = { show: true };
     const options = {
       populate: ["author", "category"],
       page: filter.page,

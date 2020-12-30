@@ -34,7 +34,12 @@
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <a href="/book" class="dropdown-item">tat ca</a>
                                                 {{#each categorys}}
-                                                <a href="?category={{_id}}" class="dropdown-item">{{name}}</a>
+                                                {{!-- <a href="?category={{_id}}" class="dropdown-item">{{name}}</a>
+                                                --}}
+
+
+                                                <button onclick="filterByCate('{{_id}}')"
+                                                    class="dropdown-item">{{name}}</button>
                                                 {{/each}}
                                             </div>
                                         </div>
@@ -140,20 +145,20 @@
 
                                 {{#ifeq hasPrevPage true}}
                                 <li class="page-item">
-                                    <a class="page-link" onclick="goToPage({{prevPage}})" href="#"
-                                        tabindex="-1">Prev</a>
+                                    <button class="page-link" onclick="goToPage({{prevPage}})"
+                                        tabindex="-1">Prev</button>
                                 </li>
-                                <li class="page-item"><a onclick="goToPage({{prevPage}})" class="page-link"
-                                        href="#">{{prevPage}}</a>
+                                <li class="page-item">
+                                    <button onclick="goToPage({{prevPage}})" class="page-link">{{prevPage}}</button>
                                 </li>
                                 {{/ifeq}}
                                 <li class="page-item active"><a class="page-link">{{page}}</a></li>
                                 {{#ifeq hasNextPage true}}
-                                <li class="page-item"><a class="page-link" onclick="goToPage({{nextPage}})"
-                                        href="#">{{nextPage}}</a>
+                                <li class="page-item">
+                                    <button class="page-link" onclick="goToPage({{nextPage}})">{{nextPage}}</button>
                                 </li>
                                 <li class="page-item">
-                                    <a onclick="goToPage({{nextPage}})" class="page-link" href="#">Next</a>
+                                    <button onclick="goToPage({{nextPage}})" class="page-link">Next</button>
                                 </li>
                                 {{/ifeq}}
 
@@ -278,16 +283,31 @@
         function goToPage(desPage) {
             var url = window.location.search;
             var page = getParameterByName('page');
-            if (page) {
-
-                var newurl = url.replace("page=" + page, "page=" + desPage.toString());
-            }
-            else {
-                var newurl = url + "&page=2"
-            }
+            var newurl = page ? url.replace("page=" + page, "page=" + desPage.toString()) : url + "&page=" + desPage.toString();
             console.log(newurl);
             window.location.search = newurl;
+        }
+        function filtersomething(num, oldQuery) {
+            console.log('something', num);
+            //alert("aaaaaaaaaaaaaa" + name);
+            console.log("old query: ", oldQuery);
+        }
+        function filterByCate(cateId) {
+            let url = window.location.search;
+            let newurl;
+            if (url === "") {
+                newurl = "?category=" + cateId;
+            }
+            else if (getParameterByName('category')) {
+                newurl = url.replace(getParameterByName('category'), cateId);
+            }
+            else {
+                newurl = url + "&category=" + cateId;
+            }
 
 
+
+
+            window.location.search = newurl;
         }
     </script>
