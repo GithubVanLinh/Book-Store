@@ -52,15 +52,17 @@
                                             </div>
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <button class="dropdown-item"
-                                                    onclick="filterByPrice(0)">0đ-50.000đ</button>
+                                                    onclick="filterByPrice(0)">All</button>
                                                 <button class="dropdown-item"
-                                                    onclick="filterByPrice(1)">50.000đ-100.000đ</button>
+                                                    onclick="filterByPrice(1)">0đ-50.000đ</button>
                                                 <button class="dropdown-item"
-                                                    onclick="filterByPrice(2)">100.000đ-150.000đ</button>
+                                                    onclick="filterByPrice(2)">50.000đ-100.000đ</button>
                                                 <button class="dropdown-item"
-                                                    onclick="filterByPrice(3)">150.000đ-200.000đ</button>
+                                                    onclick="filterByPrice(3)">100.000đ-150.000đ</button>
                                                 <button class="dropdown-item"
-                                                    onclick="filterByPrice(4)">>=200000đ</button>
+                                                    onclick="filterByPrice(4)">150.000đ-200.000đ</button>
+                                                <button class="dropdown-item"
+                                                    onclick="filterByPrice(5)">>=200000đ</button>
                                             </div>
                                         </div>
                                     </div>
@@ -309,23 +311,24 @@
         function filterByPrice(choice) {
             let priceFilter;
             switch (choice) {
-                case 0: priceFilter = "p=0-50000"; break;
-                case 1: priceFilter = "p=50000-100000"; break;
-                case 2: priceFilter = "p=100000-150000"; break;
-                case 3: priceFilter = "p=150000-200000"; break;
-                case 4: priceFilter = "p=200000"; break;
+                case 0: priceFilter = "p=0"; break;
+                case 1: priceFilter = "p=0-50000"; break;
+                case 2: priceFilter = "p=50000-100000"; break;
+                case 3: priceFilter = "p=100000-150000"; break;
+                case 4: priceFilter = "p=150000-200000"; break;
+                case 5: priceFilter = "p=200000"; break;
                 default: break;
             }
             let url = window.location.search;
             let newurl;
             if (url === "") {
-                newurl = priceFilter;
+                newurl = "?" + priceFilter;
             }
             else if (getParameterByName('p')) {
-                newurl = url.replace("p=" + getParameterByName('p'), priceFilter);
+                newurl = url.replace("&p=" + getParameterByName('p'), "&" + priceFilter);
             }
             else {
-                newurl = url + priceFilter;
+                newurl = url + "&" + priceFilter;
             }
             window.location.search = newurl;
         }
