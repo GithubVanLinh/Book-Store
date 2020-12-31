@@ -31,12 +31,26 @@ module.exports = {
     const id = req.params.id;
     console.log(id);
     //increase views by 1
-    
+
     // const book = await BookModel.getBookById(id);
     // console.log(book);
     const book = await BookModel.getBookDetail(id);
-    const bookData = await BookModel.getAllBook({category: book.category[0]._id});
+    const bookData = await BookModel.getAllBook({ category: book.category[0]._id });
+
     const relatedBooks = bookData.docs;
+    // remove element equal book in relatedBooks
+    // let index = -1;
+    // for (let i = 0; i < relatedBooks.length; i++) {
+    //   if (relatedBooks[i]._id === book._id) {
+    //     console.log("euqual: ", relatedBooks[i]._id)
+    //     index = i;
+    //     break;
+    //   }
+    // }
+
+    // if(index !== -1) {
+    //   relatedBooks.splice(index, 1);
+    // }
 
     // res.send(relatedBooks);
     res.render("book/book-detail", { book, relatedBooks });

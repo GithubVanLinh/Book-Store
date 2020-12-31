@@ -93,7 +93,7 @@ module.exports = {
       page: filter.page,
       limit: LIMIT,
     };
-    console.log("pre", options);
+    // console.log("pre", options);
     let books;
     await Book.paginate(query, options).then(function (result) {
       console.log("result", result);
@@ -101,6 +101,7 @@ module.exports = {
     });
     return books;
   },
+  
   getBookById: async (_id) => {
     const books = await Book.findOne({ _id: _id, show: true })
       .populate("author")

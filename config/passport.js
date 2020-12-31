@@ -41,7 +41,7 @@ module.exports = function () {
 
   passport.deserializeUser(async (id, done) => {
     console.log("id", id);
-    const user =await User.getUserInfo(id);
+    const user = await User.getUserInfo(id);
     console.log("user", user);
     done(null, user);
   });

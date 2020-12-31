@@ -4,6 +4,7 @@ const vertifyModel = require("../models/vertify.model");
 module.exports = {
   getAccountInfo: (req, res, next) =>
     res.render("user/my-account", { title: "Express" }),
+
   checkLogin: async (req, res, next) => {
     const password = req.body.password;
     const email = req.body.email;
@@ -18,33 +19,45 @@ module.exports = {
       res.render("user/login", { error: true });
     }
   },
+
   login: (req, res, next) => {
     res.render("user/login");
   },
+
   register: (req, res, next) => res.render("user/register"),
-  addNewAccount:async (req, res, next) => {
+
+  addNewAccount: async (req, res, next) => {
     const userInfo = req.body;
-    const status =await userModel.addNewAccount(userInfo);
-    switch (status) {
+    const result = await userModel.addNewAccount(userInfo);
+    switch (result.status) {
       case 1:
         res.send("Please confirm email!");
+        break;
+      case -1:
+        res.render("user/register", { message: result.err })
         break;
       default:
         res.redirect("/register");
     }
   },
+
   logout: (req, res, next) => {
     req.logout();
     res.redirect("/");
   },
-  vertify:async (req, res, next) => {
+
+  verifyEmail: async (req, res, next) => {
     const id = req.query.id;
-    const email = req.query.email
-    console.log("vertify", "id", id);
-    const result = await vertifyModel.vertify(email,id);
-    if (result == 1){
-        res.send('sucess');
+    const email = req.query.email;
+    // console.log("vertify", "id", id);
+    const result = await userModel.vertify(email, id);
+
+    let message = ""
+    if(result) {
+      message = "Verify email successfully!"
+    } else {
+      message = "Something went wrong. Verify email failed!"
     }
-    res.send('fail');
+    res.render('user/verify', {message})
   },
 };

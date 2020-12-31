@@ -17,6 +17,10 @@ const UserSchema = new Schema({
     show: {
       type: Boolean,
       default: true
+    },
+    status: {
+        type: String,
+        default: "Pending"
     }
 });
 

@@ -21,6 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+//passport middleware
 app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
