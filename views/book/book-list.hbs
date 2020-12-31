@@ -34,7 +34,12 @@
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <a href="/book" class="dropdown-item">tat ca</a>
                                                 {{#each categorys}}
-                                                <a href="?category={{_id}}" class="dropdown-item">{{name}}</a>
+                                                {{!-- <a href="?category={{_id}}" class="dropdown-item">{{name}}</a>
+                                                --}}
+
+
+                                                <button onclick="filterByCate('{{_id}}')"
+                                                    class="dropdown-item">{{name}}</button>
                                                 {{/each}}
                                             </div>
                                         </div>
@@ -46,16 +51,18 @@
                                             <div class="dropdown-toggle" data-toggle="dropdown">Product price range
                                             </div>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">$0 to $50</a>
-                                                <a href="#" class="dropdown-item">$51 to $100</a>
-                                                <a href="#" class="dropdown-item">$101 to $150</a>
-                                                <a href="#" class="dropdown-item">$151 to $200</a>
-                                                <a href="#" class="dropdown-item">$201 to $250</a>
-                                                <a href="#" class="dropdown-item">$251 to $300</a>
-                                                <a href="#" class="dropdown-item">$301 to $350</a>
-                                                <a href="#" class="dropdown-item">$351 to $400</a>
-                                                <a href="#" class="dropdown-item">$401 to $450</a>
-                                                <a href="#" class="dropdown-item">$451 to $500</a>
+                                                <button class="dropdown-item"
+                                                    onclick="filterByPrice(0)">All</button>
+                                                <button class="dropdown-item"
+                                                    onclick="filterByPrice(1)">0đ-50.000đ</button>
+                                                <button class="dropdown-item"
+                                                    onclick="filterByPrice(2)">50.000đ-100.000đ</button>
+                                                <button class="dropdown-item"
+                                                    onclick="filterByPrice(3)">100.000đ-150.000đ</button>
+                                                <button class="dropdown-item"
+                                                    onclick="filterByPrice(4)">150.000đ-200.000đ</button>
+                                                <button class="dropdown-item"
+                                                    onclick="filterByPrice(5)">>=200000đ</button>
                                             </div>
                                         </div>
                                     </div>
@@ -140,20 +147,20 @@
 
                                 {{#ifeq hasPrevPage true}}
                                 <li class="page-item">
-                                    <a class="page-link" onclick="goToPage({{prevPage}})" href="#"
-                                        tabindex="-1">Prev</a>
+                                    <button class="page-link" onclick="goToPage({{prevPage}})"
+                                        tabindex="-1">Prev</button>
                                 </li>
-                                <li class="page-item"><a onclick="goToPage({{prevPage}})" class="page-link"
-                                        href="#">{{prevPage}}</a>
+                                <li class="page-item">
+                                    <button onclick="goToPage({{prevPage}})" class="page-link">{{prevPage}}</button>
                                 </li>
                                 {{/ifeq}}
                                 <li class="page-item active"><a class="page-link">{{page}}</a></li>
                                 {{#ifeq hasNextPage true}}
-                                <li class="page-item"><a class="page-link" onclick="goToPage({{nextPage}})"
-                                        href="#">{{nextPage}}</a>
+                                <li class="page-item">
+                                    <button class="page-link" onclick="goToPage({{nextPage}})">{{nextPage}}</button>
                                 </li>
                                 <li class="page-item">
-                                    <a onclick="goToPage({{nextPage}})" class="page-link" href="#">Next</a>
+                                    <button onclick="goToPage({{nextPage}})" class="page-link">Next</button>
                                 </li>
                                 {{/ifeq}}
 
@@ -278,16 +285,52 @@
         function goToPage(desPage) {
             var url = window.location.search;
             var page = getParameterByName('page');
-            if (page) {
-
-                var newurl = url.replace("page=" + page, "page=" + desPage.toString());
-            }
-            else {
-                var newurl = url + "&page=2"
-            }
+            var newurl = page ? url.replace("page=" + page, "page=" + desPage.toString()) : url + "&page=" + desPage.toString();
             console.log(newurl);
             window.location.search = newurl;
-
-
         }
+        function filtersomething(num, oldQuery) {
+            console.log('something', num);
+            //alert("aaaaaaaaaaaaaa" + name);
+            console.log("old query: ", oldQuery);
+        }
+        function filterByCate(cateId) {
+            let url = window.location.search;
+            let newurl;
+            if (url === "") {
+                newurl = "?category=" + cateId;
+            }
+            else if (getParameterByName('category')) {
+                newurl = url.replace(getParameterByName('category'), cateId);
+            }
+            else {
+                newurl = url + "&category=" + cateId;
+            }
+            window.location.search = newurl;
+        }
+        function filterByPrice(choice) {
+            let priceFilter;
+            switch (choice) {
+                case 0: priceFilter = "p=0"; break;
+                case 1: priceFilter = "p=0-50000"; break;
+                case 2: priceFilter = "p=50000-100000"; break;
+                case 3: priceFilter = "p=100000-150000"; break;
+                case 4: priceFilter = "p=150000-200000"; break;
+                case 5: priceFilter = "p=200000"; break;
+                default: break;
+            }
+            let url = window.location.search;
+            let newurl;
+            if (url === "") {
+                newurl = "?" + priceFilter;
+            }
+            else if (getParameterByName('p')) {
+                newurl = url.replace("&p=" + getParameterByName('p'), "&" + priceFilter);
+            }
+            else {
+                newurl = url + "&" + priceFilter;
+            }
+            window.location.search = newurl;
+        }
+
     </script>

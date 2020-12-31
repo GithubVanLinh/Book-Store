@@ -88,7 +88,16 @@ module.exports = {
       const keyword = filter.keyword;
       query.name = new RegExp(keyword, 'gi');
     }
-    // else query = { show: true };
+    if (filter.pricerange) {
+      const prices = filter.pricerange.split("-");
+      // console.log(prices[0], " ", prices[1]);
+      if(prices[1]){
+      query.price= { $gte: prices[0], $lte: prices[1]};
+    }
+      else {
+        query.price= { $gte: prices[0]};
+      }
+    }
     const options = {
       populate: ["author", "category"],
       page: filter.page,

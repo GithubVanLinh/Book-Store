@@ -10,6 +10,7 @@ module.exports = {
     filter.page = +req.query.page || 1;
     filter.category = req.query.category;
     filter.keyword = req.query.keyword;
+    filter.pricerange = req.query.p;
     console.log("filter", filter);
 
     console.log("get data...");
@@ -20,9 +21,11 @@ module.exports = {
     bookData.category = filter.category;
 
     bookData.categorys = await CategoryModel.getCategoryList();
+    bookData.oldQuery = req.query;
 
-    console.log("locals", req.locals);
-    console.log("locals", req.session);
+    //console.log("locals", req.locals);
+    //console.log("locals", req.session);
+    console.log("query", req.query);
     res.render("book/book-list", bookData);
   },
   getBookById: async(req, res, next) => {
