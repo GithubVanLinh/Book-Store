@@ -11,6 +11,7 @@ module.exports = {
     filter.category = req.query.category;
     filter.keyword = req.query.keyword;
     filter.pricerange = req.query.p;
+    filter.priceSort = req.query.priceSort;
     console.log("filter", filter);
 
     console.log("get data...");

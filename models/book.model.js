@@ -81,21 +81,19 @@ module.exports = {
     let query = {};
     query.show = true;
     if (filter.category) {
-
       query.category = filter.category;
     }
     if (filter.keyword) {
       const keyword = filter.keyword;
-      query.name = new RegExp(keyword, 'gi');
+      query.name = new RegExp(keyword, "gi");
     }
     if (filter.pricerange) {
       const prices = filter.pricerange.split("-");
       // console.log(prices[0], " ", prices[1]);
-      if(prices[1]){
-      query.price= { $gte: prices[0], $lte: prices[1]};
-    }
-      else {
-        query.price= { $gte: prices[0]};
+      if (prices[1]) {
+        query.price = { $gte: prices[0], $lte: prices[1] };
+      } else {
+        query.price = { $gte: prices[0] };
       }
     }
     const options = {
@@ -103,6 +101,13 @@ module.exports = {
       page: filter.page,
       limit: LIMIT,
     };
+    if (filter.priceSort) {
+      if (filter.priceSort == "asc") {
+        options.sort = { price: "asc" };
+      } else if (filter.priceSort == "desc") {
+        options.sort = { price: "desc" };
+      }
+    }
     console.log("pre", options);
     let books;
     await Book.paginate(query, options).then(function (result) {
@@ -183,14 +188,13 @@ module.exports = {
   searchBooks: async (keyword, page) => {
     let query = {
       show: true,
-      name: new RegExp(keyword, 'gi')
+      name: new RegExp(keyword, "gi"),
     };
     const options = {
       populate: ["author", "category"],
       page: page,
       limit: LIMIT,
     };
-
 
     // let results = [];
     // let books = await Book.find({})
@@ -207,5 +211,5 @@ module.exports = {
     const result = await Book.paginate(query, options);
 
     return result;
-  }
+  },
 };
