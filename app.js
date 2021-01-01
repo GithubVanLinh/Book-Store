@@ -4,6 +4,7 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+
 const mongo = require("./databases/db")();
 const hbs = require("hbs");
 const session = require("express-session");
@@ -22,13 +23,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 //passport middleware
-app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true}));
+app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
+//Pass req.user to res.locals
+app.use(function (req, res, next) {
+  res.locals.user = req.user;
+  next();
+})
 
 require("./config/hbshelper")(hbs);
-require("./config/passport")();
+// require("./config/passport")();
 //route
 require("./middlewares/route.mdw")(app);
 

@@ -11,7 +11,7 @@ const crypto = require("crypto");
 //function
 async function checkEmailExists(email) {
   // console.log("checkEmailExists.", "email: ", email);
-  const isExists = await User.exists({ email: email, active: true });
+  const isExists = await User.exists({ email: email, status: "Active" });
   // console.log("checkEmailExists.", "isExists: ", isExists);
   return isExists;
 }
