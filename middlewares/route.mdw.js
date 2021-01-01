@@ -5,7 +5,7 @@ const cartRouter = require("../routes/cart");
 const {logged} = require("../middlewares/auth.mdw");
 
 module.exports = function (app) {
-  app.use(logged);
+  // app.use(logged);
   app.use("/book", booksRouter);
   app.use("/users", usersRouter);
   app.use("/cart", cartRouter);

@@ -8,9 +8,9 @@ var logger = require("morgan");
 const mongo = require("./databases/db")();
 const hbs = require("hbs");
 const session = require("express-session");
-const passport = require("passport");
 const flash = require("connect-flash");
 const bodyParser = require('body-parser');
+const passport = require('./config/passport')
 
 var app = express();
 // view engine setup

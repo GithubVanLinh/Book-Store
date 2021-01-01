@@ -1,12 +1,8 @@
 const nodemailer = require("nodemailer");
-const bcript = require('bcrypt')
-
-var path = require("path");
+const crypto = require("crypto");
 
 const User = require("../databases/user");
-const VertifyModel = require("../models/vertify.model");
-const passport = require("passport");
-const crypto = require("crypto");
+const userService = require("../service/user-service")
 
 //function
 async function checkEmailExists(email) {
@@ -42,8 +38,8 @@ var hashPwd = function hashPwd(salt, pwd) {
 };
 
 module.exports = {
-  getUserInfo: async (email) => {
-    const usrData = await User.findOne({ email: email, show: true });
+  getActivedUserInfo: async (id) => {
+    const usrData = await User.findOne({ _id: id, status: "Active" });
     return usrData;
   },
   getAllUser: async () => {
@@ -61,36 +57,18 @@ module.exports = {
       return { status: -1, err: "Email is already used" };
     }
 
-    const saltRounds = 10;
-    let userRes = {}
-    try {
-      const salt = await bcript.genSalt(saltRounds);
-      // console.log("hash: ", hash);
-      const hashedPassword = await bcript.hash(newUser.password, salt)
-      // console.log("hash: ", hashResult)
-      userRes = await User.create({ ...newUser, password: hashedPassword })
-    } catch (err) {
-      console.log("Error hash password", err)
-    }
-
-
-    // const salt = crypto.randomBytes(128).toString("base64");
-
-    // //use password , create salt, hash and compare with the existing
-    // const passHash = hashPwd(salt, newUser.password);
-    // newUser.salt = salt;
-    // newUser.password = passHash;
-
-    // console.log("addNewAccount.", "newUserPassHash: ", accountInfo);
-
-    // const keyId = makeid(10);
-
-    // newUser.id = keyId;
-
-    // // // Regist Email is not exists
-    // // const userRes = await User.create(newUser);
-    // const userRes = await VertifyModel.addNewVertify(newUser);
-    // console.log("addNewAccount.", "username: ", userRes);
+    // const saltRounds = 10;
+    // let userRes = {}
+    // try {
+    //   const salt = await bcript.genSalt(saltRounds);
+    //   // console.log("hash: ", hash);
+    //   const hashedPassword = await bcript.hash(newUser.password, salt)
+    //   // console.log("hash: ", hashResult)
+    //   userRes = await User.create({ ...newUser, password: hashedPassword })
+    // } catch (err) {
+    //   console.log("Error hash password", err)
+    // }
+    const userRes = await userService.hashPasswordAndCreateNewAccount(newUser);
 
     //send mail
     const PORT = process.env.PORT || 3000
@@ -134,17 +112,17 @@ module.exports = {
   login: async (usr, pwd) => {
     const isEmailExists = await checkEmailExists(usr);
     if (isEmailExists) {
-      const usrData = await User.findOne({ email: usr, show: true });
-      console.log("Login", "userData", usrData);
-      console.log("login", "salt", usrData.salt);
-      console.log("login", "pwd", pwd);
-      const pass = hashPwd(usrData.salt, pwd);
-      console.log("login", "pass", pass);
-      if (usrData.password === pass) {
-        return 1;
-      } else {
-        return 0;
-      }
+      // const usrData = await User.findOne({ email: usr, show: true });
+      // console.log("Login", "userData", usrData);
+      // console.log("login", "salt", usrData.salt);
+      // console.log("login", "pwd", pwd);
+      // const pass = hashPwd(usrData.salt, pwd);
+      // console.log("login", "pass", pass);
+      // if (usrData.password === pass) {
+      //   return 1;
+      // } else {
+      //   return 0;
+      // }
     }
     return -1;
   },
