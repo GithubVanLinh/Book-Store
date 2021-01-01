@@ -28,4 +28,10 @@ router.get("/logout", userController.logout);
 
 router.get("/verify", userController.verifyEmail);
 
+router.get("/forgot-password", userController.renderForgotPasswordScreen)
+router.post("/forgot-password", userController.sendEmailResetPassword)
+
+router.get("/reset-password", userController.renderNewPasswordScreen)
+router.post("/reset-password", userController.resetPassword)
+
 module.exports = router;

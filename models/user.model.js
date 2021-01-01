@@ -12,16 +12,6 @@ async function checkEmailExists(email) {
   return isExists;
 }
 
-function makeid(length) {
-  var result = '';
-  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var charactersLength = characters.length;
-  for (var i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
-
 //return 1 if vaild
 async function checkPassword(email, password) {
   for (account of accounts) {
@@ -42,6 +32,10 @@ module.exports = {
     const usrData = await User.findOne({ _id: id, status: "Active" });
     return usrData;
   },
+  getActivedUserByEmail: async (email) => {
+    const usrData = await User.findOne({ email: email, status: "Active" });
+    return usrData;
+  },
   getAllUser: async () => {
     const allUser = await User.find({ show: true }).exec();
     console.log(allUser);
@@ -57,17 +51,7 @@ module.exports = {
       return { status: -1, err: "Email is already used" };
     }
 
-    // const saltRounds = 10;
-    // let userRes = {}
-    // try {
-    //   const salt = await bcript.genSalt(saltRounds);
-    //   // console.log("hash: ", hash);
-    //   const hashedPassword = await bcript.hash(newUser.password, salt)
-    //   // console.log("hash: ", hashResult)
-    //   userRes = await User.create({ ...newUser, password: hashedPassword })
-    // } catch (err) {
-    //   console.log("Error hash password", err)
-    // }
+    //hash password
     const userRes = await userService.hashPasswordAndCreateNewAccount(newUser);
 
     //send mail
@@ -127,7 +111,7 @@ module.exports = {
     return -1;
   },
 
-  vertify: async (email, id) => {
+  verifyEmail: async (email, id) => {
     const query = { _id: id, email: email, status: "Pending" };
     let result = false;
 
@@ -140,5 +124,19 @@ module.exports = {
     return result;
   },
 
+  changePassword: async (userId, newPassword) => {
+    let result = false;
 
+    const query = { _id: userId, status: "Active" };
+    const hashedPassword = await userService.hashPassword(newPassword);
+    if (hashedPassword) {
+      try {
+        await User.findOneAndUpdate(query, { password: hashedPassword });
+        result = true;
+      } catch (error) {
+        console.log("userModel/changePassword: change password failed -> ", error);
+      }
+    }
+    return result;
+  }
 };
