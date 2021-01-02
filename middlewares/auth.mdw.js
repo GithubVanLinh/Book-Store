@@ -19,5 +19,13 @@ module.exports = {
       res.locals.user = req.user;
     }
     next();
+  },
+
+  isAuthenticated: (req, res, next) => {
+    if(req.isAuthenticated()) {
+      next();
+    } else {
+      res.render('user/login');
+    }
   }
 }

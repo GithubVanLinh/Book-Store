@@ -107,5 +107,12 @@ module.exports = {
       }
     }
     res.render('user/reset-password', { message: "Change password failed" })
+  },
+
+  updateUserInfo: async (req, res, next) => {
+    const newUserInfo = { ...req.body };
+    const result = await userModel.updateUserInfo(req.user._id, newUserInfo);
+    // res.render("user/my-account", { message: result.message });
+    res.redirect('/users')
   }
 };

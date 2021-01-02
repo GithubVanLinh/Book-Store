@@ -13,11 +13,11 @@ const UserSchema = new Schema({
     full_name: String,
     address: String,
     phone_number: String,
-    salt: String,
-    isBlocked: {
-        type: Boolean,
-        default: false
-    },
+    // salt: String,
+    // isBlocked: {
+    //     type: Boolean,
+    //     default: false
+    // },
     show: {
       type: Boolean,
       default: true

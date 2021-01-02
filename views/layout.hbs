@@ -55,7 +55,7 @@
             <a href="/book/id/detail" class="nav-item nav-link">Product Detail</a>
             <a href="/cart" class="nav-item nav-link">Cart</a>
             <a href="/cart/checkout" class="nav-item nav-link">Checkout</a>
-            <a href="/users" class="nav-item nav-link">My Account {{user.name}}</a>
+            <a href="/users" class="nav-item nav-link">My Account</a>
             <div class="nav-item dropdown">
               <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">More Pages</a>
               <div class="dropdown-menu">
@@ -74,7 +74,7 @@
                 <a href="/register" class="dropdown-item">Register</a>
               </div>
               {{else}}
-              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{user.email}}</a>
+              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{user.full_name}}</a>
               <div class="dropdown-menu">
                 <a href="/users/logout" class="dropdown-item">Log out</a>
               </div>

@@ -2,16 +2,10 @@ var express = require("express");
 const passport = require("passport");
 var router = express.Router();
 const userController = require("../controllers/user.controller");
-const { authLogin, authNotLogin } = require('../middlewares/auth.mdw');
+const { authNotLogin, isAuthenticated } = require('../middlewares/auth.mdw');
 
 /* GET home page. */
-router.get("/", function (req, res, next) {
-  if (req.isAuthenticated) {
-    next()
-  } else {
-    res.render('user/login')
-  }
-}, userController.getAccountInfo);
+router.get("/", isAuthenticated, userController.getAccountInfo);
 
 router.get("/login", authNotLogin, userController.login);
 router.post("/login", authNotLogin, passport.authenticate("local", {
@@ -33,5 +27,7 @@ router.post("/forgot-password", userController.sendEmailResetPassword)
 
 router.get("/reset-password", userController.renderNewPasswordScreen)
 router.post("/reset-password", userController.resetPassword)
+
+router.post("/update-account", isAuthenticated, userController.updateUserInfo)
 
 module.exports = router;

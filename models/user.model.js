@@ -2,7 +2,8 @@ const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 
 const User = require("../databases/user");
-const userService = require("../service/user-service")
+const userService = require("../service/user-service");
+const { findOneAndUpdate } = require("../databases/user");
 
 //function
 async function checkEmailExists(email) {
@@ -137,6 +138,21 @@ module.exports = {
         console.log("userModel/changePassword: change password failed -> ", error);
       }
     }
+    return result;
+  },
+
+  updateUserInfo: async (userId, info) => {
+    let result = {status: false, message: ""};
+
+    const query = { _id: userId, status: "Active" }
+    try {
+      await User.findOneAndUpdate(query, { ...info });
+      result.status = true;
+      result.message = "Updated successfully!"
+    } catch (error) {
+      result.message = "Error updateUserInfo: cannot update user info"
+    }
+
     return result;
   }
 };
