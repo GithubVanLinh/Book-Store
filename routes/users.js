@@ -29,5 +29,6 @@ router.get("/reset-password", userController.renderNewPasswordScreen)
 router.post("/reset-password", userController.resetPassword)
 
 router.post("/update-account", isAuthenticated, userController.updateUserInfo)
+router.post("/change-password", isAuthenticated, userController.changePassword)
 
 module.exports = router;

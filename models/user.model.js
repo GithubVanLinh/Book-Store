@@ -7,9 +7,7 @@ const { findOneAndUpdate } = require("../databases/user");
 
 //function
 async function checkEmailExists(email) {
-  // console.log("checkEmailExists.", "email: ", email);
   const isExists = await User.exists({ email: email, status: "Active" });
-  // console.log("checkEmailExists.", "isExists: ", isExists);
   return isExists;
 }
 
@@ -23,10 +21,10 @@ async function checkPassword(email, password) {
   return 0;
 }
 
-var hashPwd = function hashPwd(salt, pwd) {
-  var hmac = crypto.createHmac("sha256", salt);
-  return hmac.update(pwd).digest("hex");
-};
+// var hashPwd = function hashPwd(salt, pwd) {
+//   var hmac = crypto.createHmac("sha256", salt);
+//   return hmac.update(pwd).digest("hex");
+// };
 
 module.exports = {
   getActivedUserInfo: async (id) => {

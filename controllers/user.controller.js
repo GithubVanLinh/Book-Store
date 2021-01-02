@@ -114,5 +114,16 @@ module.exports = {
     const result = await userModel.updateUserInfo(req.user._id, newUserInfo);
     // res.render("user/my-account", { message: result.message });
     res.redirect('/users')
+  },
+
+  changePassword: async (req, res, next) => {
+    const { current_password, new_password } = req.body;
+    if (new_password.trim()) {
+      if (await userService.checkCredential(req.user.email, current_password)) {
+        const result = await userModel.changePassword(req.user._id, new_password);
+      }
+    }
+
+    res.redirect('/users')
   }
 };
