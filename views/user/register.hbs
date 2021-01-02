@@ -1,55 +1,61 @@
 <!-- Breadcrumb Start -->
 <div class="breadcrumb-wrap">
-    <div class="container-fluid">
-        <ul class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Products</a></li>
-            <li class="breadcrumb-item active">Register</li>
-        </ul>
-    </div>
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#">Home</a></li>
+      <li class="breadcrumb-item"><a href="#">Products</a></li>
+      <li class="breadcrumb-item active">Register</li>
+    </ul>
+  </div>
 </div>
 <!-- Breadcrumb End -->
 
 <!-- Login Start -->
 <div class="login">
-    <div class="container-fluid">
-        <div class="row d-flex justify-content-center">
-            <div class="col-lg-6">
-                <h6 id="message"></h6>
-                <form action="/users/register" method="POST" id="fm-register">
-                    <div class="register-form">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Full Name</label>
-                                <input class="form-control" name="full_name" type="text" placeholder="Full Name">
-                            </div>
-                            <div class="col-md-6">
-                                <label>E-mail</label>
-                                <input id="email" class="form-control" name="email" type="text" placeholder="E-mail">
-                            </div>
-                            <div class="col-md-6">
-                                <label>Mobile No</label>
-                                <input class="form-control" name="phone_number" type="text" placeholder="Mobile No">
-                            </div>
-                            <div class="col-md-6">
-                                <label>Password</label>
-                                <input id="password" class="form-control" name="password" type="text"
-                                    placeholder="Password">
-                            </div>
-                            <div class="col-md-6">
-                                <label>Retype Password</label>
-                                <input id="retype" class="form-control" type="text" placeholder="Password">
-                            </div>
-                            <div class="col-md-12">
-                                <button type="submit" class="btn">Submit</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
+  <div class="container-fluid">
+    <div class="row d-flex justify-content-center">
+      <div class="col-lg-6">
+        <h6 id="message" style="text-align: center; color: red;font-weight: bold">{{message}}</h6>
+        <form action="/users/register" method="POST" id="fm-register" onsubmit="confirmPassword()">
+          <div class="register-form">
+            <div class="row">
+              <div class="col-md-6">
+                <label>Full Name</label>
+                <input required class="form-control" name="full_name" type="text" placeholder="Full Name">
+              </div>
+              <div class="col-md-6">
+                <label>E-mail</label>
+                <input required id="email" class="form-control" name="email" type="text" placeholder="E-mail">
+              </div>
+              <div class="col-md-6">
+                <label>Password</label>
+                <input required id="password" class="form-control" name="password" type="password" placeholder="Password">
+              </div>
+              <div class="col-md-6">
+                <label>Confirm Password</label>
+                <input required id="retype" class="form-control" type="password" placeholder="Confirm password">
+              </div>
+              <div class="col-md-12">
+                <button id="submit" type="submit" class="btn">Submit</button>
+              </div>
             </div>
-        </div>
+          </div>
+        </form>
+
+      </div>
     </div>
+  </div>
 </div>
 <!-- Login End -->
 <script src="/javascripts/register"></script>
+<script>
+  function confirmPassword() {
+    const password = document.getElementById("password").value
+    const confirmPassword = document.getElementById('retype').value;
+    if (password !== confirmPassword) {
+      document.getElementById("message").innerHTML = "Confirm password failed"
+      return false;
+    }
+
+  }
+</script>

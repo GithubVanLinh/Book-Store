@@ -1,51 +1,33 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-const User = require("../models/user.model");
-const crypto = require("crypto");
 
-var hashPwd = function hashPwd(salt, pwd) {
-  var hmac = crypto.createHmac("sha256", salt);
-  return hmac.update(pwd).digest("hex");
-};
+const userService = require('../service/user-service')
+const userModel = require('../models/user.model')
 
-module.exports = function () {
-  passport.use(
-    new LocalStrategy(
-      {
-        usernameField: "email",
-      },
-      async function (username, password, done) {
-        const usrData = await User.getUserInfo(username);
-        console.log("passport", "User data", usrData);
-        if (usrData) {
-          console.log("passport", "userData", usrData);
-          console.log("passport", "salt", usrData.salt);
-          console.log("passport", "pwd", password);
-          if(usrData.isBlocked == true){
-            return done(null, false, {message: "User has been blocked"});
-          }
-          const pass = hashPwd(usrData.salt, password);
-          console.log("passport", "pass", pass);
-          if (usrData.password === pass) {
-            return done(null, usrData);
-          } else {
-            return done(null, false, { message: "Incorrect password." });
-          }
-        }
-        return done(null, false, { message: "Incorrect username." });
-      }
-    )
-  );
+passport.use(new LocalStrategy(
+  { usernameField: "email" },
+  async function (username, password, done) {
+    const user = await userService.checkCredential(username, password)
+    
+    console.log("checkCredential result: ", user);
 
-  passport.serializeUser((user, done) => {
-    console.log("serial", user);
-    done(null, user.email);
-  });
+    if (!user) {
+      return done(null, false, { message: 'Incorrect username or password' });
+    }
+    return done(null, user);
+  })
+)
 
-  passport.deserializeUser(async (id, done) => {
-    console.log("id", id);
-    const user =await User.getUserInfo(id);
-    console.log("user", user);
-    done(null, user);
-  });
-};
+passport.serializeUser((user, done) => {
+  done(null, user._id);
+});
+
+passport.deserializeUser((id, done) => {
+  userModel.getActivedUserInfo(id)
+    .then(user => {
+      done(null, user);
+    })
+});
+
+
+module.exports = passport;
