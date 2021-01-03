@@ -67,11 +67,11 @@
               <li class="nav-item">
                 <a class="nav-link active" data-toggle="pill" href="#description">Description</a>
               </li>
-              <li class="nav-item">
+              {{!-- <li class="nav-item">
                 <a class="nav-link" data-toggle="pill" href="#specification">Specification</a>
-              </li>
+              </li> --}}
               <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#reviews">Reviews (1)</a>
+                <a class="nav-link" data-toggle="pill" href="#reviews">Reviews ({{book.totalCmts}})</a>
               </li>
             </ul>
 
@@ -82,7 +82,7 @@
                   {{book.description}}
                 </p>
               </div>
-              <div id="specification" class="container tab-pane fade">
+              {{!-- <div id="specification" class="container tab-pane fade">
                 <h4>Product specification</h4>
                 <ul>
                   <li>Lorem ipsum dolor sit amet</li>
@@ -91,45 +91,40 @@
                   <li>Lorem ipsum dolor sit amet</li>
                   <li>Lorem ipsum dolor sit amet</li>
                 </ul>
-              </div>
+              </div> --}}
               <div id="reviews" class="container tab-pane fade">
                 <div class="reviews-submitted">
-                  <div class="reviewer">Phasellus Gravida - <span>01 Jan 2020</span></div>
-                  <div class="ratting">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                  </div>
+                  {{#each book.comments}}
+                  <div class="reviewer">{{this.name}} <span>{{this.dateFm}}</span></div>
                   <p>
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-                    doloremque laudantium, totam rem aperiam.
+                    {{this.content}}
                   </p>
+                  {{/each}}
                 </div>
                 <div class="reviews-submit">
                   <h4>Give your Review:</h4>
-                  <div class="ratting">
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                  </div>
+                 <form action="/book/{{book._id}}/comments" method="POST">
                   <div class="row form">
+                    {{#ifUnd user}}
+                    <div class="col-sm-6">
+                      <input type="text" placeholder="Name" name="name">
+                    </div>
+                    {{!-- {{else}}
                     <div class="col-sm-6">
                       <input type="text" placeholder="Name">
-                    </div>
-                    <div class="col-sm-6">
+                    </div> --}}
+                    {{/ifUnd}}
+                    {{!-- <div class="col-sm-6">
                       <input type="email" placeholder="Email">
+                    </div> --}}
+                    <div class="col-sm-12">
+                      <textarea placeholder="Review" name="content"></textarea>
                     </div>
                     <div class="col-sm-12">
-                      <textarea placeholder="Review"></textarea>
-                    </div>
-                    <div class="col-sm-12">
-                      <button>Submit</button>
+                      <button class="btn" type="submit">Submit</button>
                     </div>
                   </div>
+                  </form>
                 </div>
               </div>
             </div>
@@ -144,7 +139,7 @@
           <div class="row align-items-center product-slider product-slider-3">
             {{#each relatedBooks}}
             {{#when this._id 'noteq' book._id}}
-           
+
             <div class="col-lg-3">
               <div class="product-item">
                 <div class="product-title">
@@ -175,7 +170,7 @@
             </div>
             {{/when}}
             {{/each}}
-            
+
           </div>
         </div>
       </div>

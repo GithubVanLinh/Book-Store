@@ -2,6 +2,7 @@ const Book = require("../databases/book");
 const Author = require("../databases/author");
 const Category = require("../databases/category");
 const mongoose = require("mongoose");
+const dateFormat = require ("dateformat");
 
 const LIMIT = 6;
 
@@ -126,10 +127,15 @@ module.exports = {
     return books;
   },
   getBookDetail: async (_id) => {
-    return await Book.findOne({ _id: _id, show: true }, function (err, doc) {
+     let book = await Book.findOne({ _id: _id, show: true }, function (err, doc) {
       doc.views = doc.views + 1;
       doc.save();
     })
+     book.comments.forEach(comment => {
+       comment.dateFm = dateFormat(comment.date, "dd/mm/yyyy HH:MM");
+     });
+     book.totalCmts = book.comments.length;
+     return book;
   },
   // return -1 if ID has been existed
   createANewBook: async (aNewBookInfo) => {

@@ -8,60 +8,68 @@ var mongoosePaginate = require('mongoose-paginate-v2');
 const BookSchema = new Schema({
   id: {
     type: String,
-    required: true
+    required: true,
   },
-  name:  {
+  name: {
     type: String,
-    required: true
+    required: true,
   },
   date: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   status: String,
   views: {
     type: Number,
-    default: 0
+    default: 0,
   },
   quantity_sold: {
     type: Number,
-    default: 0
+    default: 0,
   },
   quantity: {
     type: Number,
-    default: 0
+    default: 0,
   },
   author: {
     type: mongoose.Types.ObjectId,
     required: true,
-    ref: Author
+    ref: Author,
   },
   price: {
     type: Number,
-    default: 0
+    default: 0,
   },
   publisher: String,
   description: String,
-  comments: [{
-    name: String,
-    content: String,
-    show: {
-      type: Boolean,
-      default: true
-    }
-  }],
-  category: [{
-    type: mongoose.Types.ObjectId,
-    ref: Category
-  }],
+  comments: [
+    {
+      name: String,
+      content: String,
+      date: {
+        type: Date,
+        default: Date.now
+      },
+      show: {
+        type: Boolean,
+        default: true,
+      },
+    },
+  ],
+  category: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: Category,
+    },
+  ],
   image: {
     type: String,
-    required: true
+    required: true,
   },
   show: {
     type: Boolean,
-    default: true
-  }
+    default: true,
+  },
 });
 
 BookSchema.plugin(mongoosePaginate);

@@ -40,21 +40,7 @@ module.exports = {
     const bookData = await BookModel.getAllBook({ category: book.category[0]._id });
 
     const relatedBooks = bookData.docs;
-    // remove element equal book in relatedBooks
-    // let index = -1;
-    // for (let i = 0; i < relatedBooks.length; i++) {
-    //   if (relatedBooks[i]._id === book._id) {
-    //     console.log("euqual: ", relatedBooks[i]._id)
-    //     index = i;
-    //     break;
-    //   }
-    // }
-
-    // if(index !== -1) {
-    //   relatedBooks.splice(index, 1);
-    // }
-
-    // res.send(relatedBooks);
+    // res.send(book);
     res.render("book/book-detail", { book, relatedBooks });
   },
   searchBooks: async (req, res, next) => {
@@ -74,13 +60,32 @@ module.exports = {
     // res.send(bookData);
 
   },
-
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+//   can su chu y cua kiet
   createComment: async (req, res, next) => {
     const id = req.params.id;
     const book = await BookModel.getBookById(id);
-    console.log(book);
+    if(!req.user){
     book.comments = [...book.comments, req.body];
-    await book.save();
-    res.json({ book });
+    }
+    else{
+      let comment;
+      // comment.name = req.user.full_name;
+      comment.content = req.body;
+      res.send(book.comments);
+    // book.comments = [...book.comments, req.body, name: req.user.full_name];
+
+      // book.comments = [...book.comments, comment];
+    }
+    // await book.save();
+    //res.redirect(`/book/${id}/detail`);
   }
 };
