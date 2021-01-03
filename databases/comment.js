@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const CommentSchema = new Schema({
+  userId: mongoose.Types.ObjectId,
   name: {
     type: String,
     required: true,
@@ -13,6 +14,10 @@ const CommentSchema = new Schema({
   show: {
     type: Boolean,
     default: true
+  },
+  date: {
+    type: Date,
+    default: Date.now
   }
 });
 

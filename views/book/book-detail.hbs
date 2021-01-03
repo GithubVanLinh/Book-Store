@@ -109,25 +109,31 @@
                 </div>
                 <div class="reviews-submit">
                   <h4>Give your Review:</h4>
-                  <div class="ratting">
+                  {{!-- <div class="ratting">
                     <i class="far fa-star"></i>
                     <i class="far fa-star"></i>
                     <i class="far fa-star"></i>
                     <i class="far fa-star"></i>
                     <i class="far fa-star"></i>
-                  </div>
+                  </div> --}}
                   <div class="row form">
+                    {{#ifUnd user}}
                     <div class="col-sm-6">
                       <input type="text" placeholder="Name">
                     </div>
+                    {{!-- {{else}}
                     <div class="col-sm-6">
+                      <input type="text" placeholder="Name">
+                    </div> --}}
+                    {{/ifUnd}}
+                    {{!-- <div class="col-sm-6">
                       <input type="email" placeholder="Email">
+                    </div> --}}
+                    <div class="col-sm-12">
+                      <textarea placeholder="Review" name="content"></textarea>
                     </div>
                     <div class="col-sm-12">
-                      <textarea placeholder="Review"></textarea>
-                    </div>
-                    <div class="col-sm-12">
-                      <button>Submit</button>
+                      <button class="btn" type="submit">Submit</button>
                     </div>
                   </div>
                 </div>
@@ -144,7 +150,7 @@
           <div class="row align-items-center product-slider product-slider-3">
             {{#each relatedBooks}}
             {{#when this._id 'noteq' book._id}}
-           
+
             <div class="col-lg-3">
               <div class="product-item">
                 <div class="product-title">
@@ -175,7 +181,7 @@
             </div>
             {{/when}}
             {{/each}}
-            
+
           </div>
         </div>
       </div>

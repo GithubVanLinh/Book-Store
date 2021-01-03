@@ -31,7 +31,7 @@ module.exports = {
   },
   getBookById: async (req, res, next) => {
     const id = req.params.id;
-    console.log(id);
+    // console.log("Request params: ", req.params);
     //increase views by 1
 
     // const book = await BookModel.getBookById(id);

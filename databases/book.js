@@ -48,6 +48,10 @@ const BookSchema = new Schema({
     show: {
       type: Boolean,
       default: true
+    },
+    date: {
+      type: Date,
+      default: Date.now
     }
   }],
   category: [{
