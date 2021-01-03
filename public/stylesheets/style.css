@@ -2394,3 +2394,16 @@ h2 {
       text-align: center; 
   } 
 }
+
+
+
+
+
+.error {
+  color: red;
+  font-size: 13px;
+}
+.success {
+  color: #2ecc71;
+  font-size: 13px;
+}

@@ -60,28 +60,29 @@ module.exports = {
     // res.send(bookData);
 
   },
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-//   can su chu y cua kiet
+  // 
+  // 
+  // 
+  // 
+  // 
+  // 
+  // 
+  // 
+  // 
+  //   can su chu y cua kiet
   createComment: async (req, res, next) => {
     const id = req.params.id;
     const book = await BookModel.getBookById(id);
-    if(!req.user){
-    book.comments = [...book.comments, req.body];
+    res.send
+    if (!req.user) {
+      book.comments = [...book.comments, req.body];
     }
-    else{
+    else {
       let comment;
       // comment.name = req.user.full_name;
       comment.content = req.body;
       res.send(book.comments);
-    // book.comments = [...book.comments, req.body, name: req.user.full_name];
+      // book.comments = [...book.comments, req.body, name: req.user.full_name];
 
       // book.comments = [...book.comments, comment];
     }

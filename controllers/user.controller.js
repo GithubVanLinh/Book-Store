@@ -123,7 +123,7 @@ module.exports = {
         const result = await userModel.changePassword(req.user._id, new_password);
       }
     }
-
     res.redirect('/users')
   }
+
 };
