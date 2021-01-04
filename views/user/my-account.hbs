@@ -111,25 +111,31 @@
             </div>
           </div>
           <div class="tab-pane fade" id="account-tab" role="tabpanel" aria-labelledby="account-nav">
-            <h2>{{message}}</h2>
+            {{!-- <h2>{{message}}</h2> --}}
             <h4>Account Details</h4>
-            <form action="/users/update-account" method="POST">
+            <form action="/users/update-account" method="POST" onsubmit="return onUpdateUserInfo()">
               <div class="row">
                 <div class="col-md-6">
-                  <label for="full_name">Full name</label>
-                  <input id="full_name" name="full_name" class="form-control" type="text" value="{{user.full_name}}">
+                  <label for="full-name">Full name</label>
+                  <input id="full-name" name="full_name" class="form-control" type="text" value="{{user.full_name}}"
+                    onchange="validateFullName(this.value)">
+                  <span id="full-name-message"></span>
                 </div>
                 <div class="col-md-6">
-                  <label for="phone">Phone number</label>
-                  <input id="phone" name="phone_number" class="form-control" type="text" value="{{user.phone_number}}">
+                  <label for="phone-number">Phone number</label>
+                  <input id="phone-number" name="phone_number" class="form-control" type="tel"
+                    value="{{user.phone_number}}" onchange="validatePhoneNumber(this.value)">
+                  <span id="phone-number-message"></span>
                 </div>
                 <div class="col-md-6">
                   <label for="email">Email</label>
-                  <input id="email" readonly name="email" class="form-control" type="text" value="{{user.email}}">
+                  <input id="email" readonly name="email" class="form-control" type="email" value="{{user.email}}">
                 </div>
                 <div class="col-md-12">
                   <label for="address">Address</label>
-                  <input id="address" name="address" class="form-control" type="text" value="{{user.address}}">
+                  <input id="address" name="address" class="form-control" type="text" value="{{user.address}}"
+                    onchange="validateAddress(this.value)">
+                  <span id="address-message"></span>
                 </div>
                 <div class="col-md-12">
                   <button class="btn" type="submit">Update Account</button>
@@ -140,19 +146,25 @@
             <br><br>
 
             <h4>Password change</h4>
-            <form action="/users/change-password" method="POST">
+            <form action="/users/change-password" method="POST" onsubmit="return onChangePassword()">
               <div class="row">
                 <div class="col-md-12">
-                  <input id="current_password" name="current_password" class="form-control" type="password" placeholder="Current Password">
+                  <input id="current-password" name="current_password" class="form-control" type="password"
+                    placeholder="Current Password" oninput="validatePassword(this.id, this.value)">
+                  <span id="current-password-message"></span>
                 </div>
                 <div class="col-md-6">
-                  <input id="new_password" name="new_password" class="form-control" type="text" placeholder="New Password">
+                  <input id="new-password" name="new_password" class="form-control" type="text"
+                    placeholder="New Password" oninput="validatePassword(this.id, this.value)">
+                  <span id="new-password-message"></span>
                 </div>
                 <div class="col-md-6">
-                  <input id="confirm_new_password" class="form-control" type="text" placeholder="Confirm Password">
+                  <input id="confirm-new-password" class="form-control" type="text" placeholder="Confirm Password"
+                    oninput="confirmPassword(this.value)">
+                  <span id="confirm-password-message"></span>
                 </div>
                 <div class="col-md-12">
-                  <button class="btn">Save Changes</button>
+                  <button class="btn" type="submit">Save Changes</button>
                 </div>
               </div>
             </form>
@@ -163,3 +175,110 @@
   </div>
 </div>
 <!-- My Account End -->
+
+<script>
+  const fullNameRegex = /[0-9]/;
+  const phoneNumberRegex = /^[0-9]+$/;
+
+  function validateFullName(fullName) {
+    let result = false;
+    if (fullName.indexOf(" ") === 0) {
+      $('#full-name-message').addClass('error').removeClass('success').html("Full name does not contain space at beginning");
+    }
+    else if (fullName.lastIndexOf(" ") === (fullName.length - 1)) {
+      $('#full-name-message').addClass('error').removeClass('success').html("Full name does not contain space at the end");
+    }
+    else if (fullName.match(fullNameRegex)) {
+      $('#full-name-message').addClass('error').removeClass('success').html("Full name contain only a-z, A-z");
+    } else {
+      $('#full-name-message').addClass('success').removeClass('error').html("Valid full name");
+      result = true;
+    }
+    return result;
+  }
+
+  function validatePhoneNumber(phoneNumber) {
+    let result = false;
+    if (phoneNumber.match(phoneNumberRegex)) {
+      $('#phone-number-message').addClass('success').removeClass('error').html("Valid phone number");
+      result = true;
+    } else {
+      $('#phone-number-message').addClass('error').removeClass('success').html("Phone numbers contain only numeric characters");
+    }
+    return result;
+  }
+
+  function validateAddress(address) {
+    let result = false;
+    if (address.indexOf(' ') === 0 || address.lastIndexOf(' ') === (address.length - 1)) {
+      $('#address-message').addClass('error').removeClass('success').html("Address do not contain leading and trailing spaces");
+    } else {
+      $('#address-message').addClass('success').removeClass('error').html("Valid address");
+      result = true;
+    }
+
+    return result;
+  }
+
+  function validatePassword(id, password) {
+    let result = false;
+    let messageId = "";
+    if (id === "current-password") {
+      messageId = "current-password-message";
+    } else if (id === "new-password") {
+      messageId = "new-password-message";
+    }
+
+    if (password.indexOf(' ') >= 0) {
+      $('#' + messageId).addClass('error').removeClass('success').html("Password does not contain any space");
+    } else if (password.length < 6) {
+      $('#' + messageId).addClass('error').removeClass('success').html("Password must contains at least 6 characters");
+    } else {
+      $('#' + messageId).addClass('success').removeClass('error').html("Valid password");
+      result = true;
+    }
+    return result;
+  }
+
+  //function checkPasswordValid(password) {
+  //let result = false;
+  //if (password.indexOf(' ') < 0 && password.length >= 6) {
+  //result = true;
+  //}
+  //return result;
+  //}
+
+  function confirmPassword(confirmPassword) {
+    let result = false;
+    const password = document.getElementById("new-password").value;
+    if (password !== confirmPassword) {
+      $('#confirm-password-message').addClass('error').removeClass('success').html("Password does not match");
+    } else {
+      $('#confirm-password-message').html("");
+      result = true;
+    }
+    return result;
+  }
+
+  function onUpdateUserInfo() {
+    const isFullNameValid = validateFullName($('#full-name').val());
+    const isPhoneNumberValid = validatePhoneNumber($('#phone-number').val());
+    const isAddressValid = validateAddress($('#address').val());
+    if (isFullNameValid && isPhoneNumberValid && isAddressValid) {
+      return true;
+    }
+    return false;
+  }
+
+  function onChangePassword() {
+    const isCurrentPasswordValid = validatePassword($('#current-password').attr("id"), $('#current-password').val());
+    const isNewPasswordValid = validatePassword($('#new-password').attr("id"), $('#new-password').val());
+    const isConfirmPasswordValid = confirmPassword($('#confirm-new-password').val());
+
+    if (isCurrentPasswordValid && isNewPasswordValid && isConfirmPasswordValid) {
+      return true;
+    }
+    return false;
+  }
+
+</script>
