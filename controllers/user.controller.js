@@ -65,22 +65,22 @@ module.exports = {
     res.render('user/forgot-password')
   },
 
-  sendEmailResetPassword: async (req, res, next) => {
-    //send email
-    const email = req.body.email;
+  // sendEmailResetPassword: async (req, res, next) => {
+  //   //send email
+  //   const email = req.body.email;
 
-    const userInfo = await userModel.getActivedUserByEmail(email);
-    if (userInfo) {
-      const result = await userService.sendEmailResetPassword(userInfo)
-      if (result) {
-        res.send("Email has sent")
-      } else {
-        res.render('user/forgot-password', { message: "Error while sending email" })
-      }
-    } else {
-      res.render('user/forgot-password', { message: "Email does not exist" })
-    }
-  },
+  //   const userInfo = await userModel.getActivedUserByEmail(email);
+  //   if (userInfo) {
+  //     const result = await userService.sendEmailResetPassword(userInfo)
+  //     if (result) {
+  //       res.send("Email has sent")
+  //     } else {
+  //       res.render('user/forgot-password', { message: "Error while sending email" })
+  //     }
+  //   } else {
+  //     res.render('user/forgot-password', { message: "Email does not exist" })
+  //   }
+  // },
 
   renderNewPasswordScreen: async (req, res, next) => {
     // const email = req.query.email;
@@ -103,7 +103,7 @@ module.exports = {
 
     if (await userModel.getActivedUserInfo(userId)) {
       if (await userModel.changePassword(userId, password)) {
-        res.render('user/login');
+        res.render('user/login', {message: "Reset password successfully"});
       }
     }
     res.render('user/reset-password', { message: "Change password failed" })

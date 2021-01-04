@@ -7,5 +7,7 @@ const userApiController = require("../../controllers/api/user-api-controller");
 router.get("/check-email-exist", userApiController.checkEmailExist)
 router.post("/update-user-info", isAuthenticated, userApiController.updateUserInfo)
 router.post("/change-password", isAuthenticated, userApiController.changePassword)
+// router.post("/reset-password", userApiController.resetPassword)
+router.post("/send-email-reset-password", userApiController.sendEmailResetPassword)
 
 module.exports = router;
