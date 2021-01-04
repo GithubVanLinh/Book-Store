@@ -128,6 +128,7 @@ module.exports = {
 
     const query = { _id: userId, status: "Active" };
     const hashedPassword = await userService.hashPassword(newPassword);
+    
     if (hashedPassword) {
       try {
         await User.findOneAndUpdate(query, { password: hashedPassword });
@@ -148,7 +149,7 @@ module.exports = {
       result.status = true;
       result.message = "Updated successfully!"
     } catch (error) {
-      result.message = "Error updateUserInfo: cannot update user info"
+      result.message = "Cannot update user info"
     }
 
     return result;

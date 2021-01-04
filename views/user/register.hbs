@@ -74,7 +74,7 @@
     else if (fullName.match(fullNameRegex)) {
       $('#full-name-message').addClass('error').removeClass('success').html("Full name contain only a-z, A-z");
     } else {
-      $('#full-name-message').addClass('success').removeClass('error').html("Valid full name");
+      $('#full-name-message').addClass('success').removeClass('error').html("");
       result = true;
     }
     return result;
@@ -85,7 +85,7 @@
     $.getJSON('/api/users/check-email-exist', { email }, function (data) {
       console.log(data);
       if (!data) {
-        $('#email-message').addClass('success').removeClass('error').html("Valid email");
+        $('#email-message').addClass('success').removeClass('error').html("");
         isEmailExist = false;
       } else {
         $('#email-message').addClass('error').removeClass('success').html("Email is already taken");
@@ -101,7 +101,7 @@
     } else if (password.length < 6) {
       $('#password-message').addClass('error').removeClass('success').html("Password must contains at least 6 characters");
     } else {
-      $('#password-message').addClass('success').removeClass('error').html("Valid password");
+      $('#password-message').addClass('success').removeClass('error').html("");
       result = true;
     }
     return result;

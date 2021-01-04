@@ -112,41 +112,44 @@
           </div>
           <div class="tab-pane fade" id="account-tab" role="tabpanel" aria-labelledby="account-nav">
             {{!-- <h2>{{message}}</h2> --}}
+            <h6 id="request-message" style="text-align: center; font-weight: bold; font-size: 16px"></h6>
             <h4>Account Details</h4>
-            <form action="/users/update-account" method="POST" onsubmit="return onUpdateUserInfo()">
-              <div class="row">
-                <div class="col-md-6">
-                  <label for="full-name">Full name</label>
-                  <input id="full-name" name="full_name" class="form-control" type="text" value="{{user.full_name}}"
-                    onchange="validateFullName(this.value)">
-                  <span id="full-name-message"></span>
-                </div>
-                <div class="col-md-6">
-                  <label for="phone-number">Phone number</label>
-                  <input id="phone-number" name="phone_number" class="form-control" type="tel"
-                    value="{{user.phone_number}}" onchange="validatePhoneNumber(this.value)">
-                  <span id="phone-number-message"></span>
-                </div>
-                <div class="col-md-6">
-                  <label for="email">Email</label>
-                  <input id="email" readonly name="email" class="form-control" type="email" value="{{user.email}}">
-                </div>
-                <div class="col-md-12">
-                  <label for="address">Address</label>
-                  <input id="address" name="address" class="form-control" type="text" value="{{user.address}}"
-                    onchange="validateAddress(this.value)">
-                  <span id="address-message"></span>
-                </div>
-                <div class="col-md-12">
-                  <button class="btn" type="submit">Update Account</button>
-                </div>
+
+            {{!-- action="/users/update-account" method="POST" onsubmit="return onUpdateUserInfo()" --}}
+            <div class="row">
+              <div class="col-md-6">
+                <label for="full-name">Full name</label>
+                <input id="full-name" name="full_name" class="form-control" type="text" value="{{user.full_name}}"
+                  onchange="validateFullName(this.value)">
+                <span id="full-name-message"></span>
               </div>
-            </form>
+              <div class="col-md-6">
+                <label for="phone-number">Phone number</label>
+                <input id="phone-number" name="phone_number" class="form-control" type="tel"
+                  value="{{user.phone_number}}" onchange="validatePhoneNumber(this.value)">
+                <span id="phone-number-message"></span>
+              </div>
+              <div class="col-md-6">
+                <label for="email">Email</label>
+                <input id="email" readonly name="email" class="form-control" type="email" value="{{user.email}}">
+              </div>
+              <div class="col-md-12">
+                <label for="address">Address</label>
+                <input id="address" name="address" class="form-control" type="text" value="{{user.address}}"
+                  onchange="validateAddress(this.value)">
+                <span id="address-message"></span>
+              </div>
+              <div class="col-md-12">
+                <button class="btn" onclick="updateUserInfo()">Update Account</button>
+              </div>
+            </div>
+
 
             <br><br>
 
+            <h6 id="change-password-request-message" style="text-align: center; font-weight: bold; font-size: 16px"></h6>
             <h4>Password change</h4>
-            <form action="/users/change-password" method="POST" onsubmit="return onChangePassword()">
+            {{!-- <form action="/users/change-password" method="POST" onsubmit="return onChangePassword()"> --}}
               <div class="row">
                 <div class="col-md-12">
                   <input id="current-password" name="current_password" class="form-control" type="password"
@@ -164,10 +167,11 @@
                   <span id="confirm-password-message"></span>
                 </div>
                 <div class="col-md-12">
-                  <button class="btn" type="submit">Save Changes</button>
+                  <button class="btn" onclick="changePassword()">Save Changes</button>
                 </div>
               </div>
-            </form>
+              {{!--
+            </form> --}}
           </div>
         </div>
       </div>
@@ -191,7 +195,7 @@
     else if (fullName.match(fullNameRegex)) {
       $('#full-name-message').addClass('error').removeClass('success').html("Full name contain only a-z, A-z");
     } else {
-      $('#full-name-message').addClass('success').removeClass('error').html("Valid full name");
+      $('#full-name-message').addClass('success').removeClass('error').html("");
       result = true;
     }
     return result;
@@ -200,7 +204,7 @@
   function validatePhoneNumber(phoneNumber) {
     let result = false;
     if (phoneNumber.match(phoneNumberRegex)) {
-      $('#phone-number-message').addClass('success').removeClass('error').html("Valid phone number");
+      $('#phone-number-message').addClass('success').removeClass('error').html("");
       result = true;
     } else {
       $('#phone-number-message').addClass('error').removeClass('success').html("Phone numbers contain only numeric characters");
@@ -213,7 +217,7 @@
     if (address.indexOf(' ') === 0 || address.lastIndexOf(' ') === (address.length - 1)) {
       $('#address-message').addClass('error').removeClass('success').html("Address do not contain leading and trailing spaces");
     } else {
-      $('#address-message').addClass('success').removeClass('error').html("Valid address");
+      $('#address-message').addClass('success').removeClass('error').html("");
       result = true;
     }
 
@@ -234,7 +238,7 @@
     } else if (password.length < 6) {
       $('#' + messageId).addClass('error').removeClass('success').html("Password must contains at least 6 characters");
     } else {
-      $('#' + messageId).addClass('success').removeClass('error').html("Valid password");
+      $('#' + messageId).addClass('success').removeClass('error').html("");
       result = true;
     }
     return result;
@@ -252,7 +256,7 @@
     return result;
   }
 
-  function onUpdateUserInfo() {
+  function checkInputValue() {
     const isFullNameValid = validateFullName($('#full-name').val());
     const isPhoneNumberValid = validatePhoneNumber($('#phone-number').val());
     const isAddressValid = validateAddress($('#address').val());
@@ -262,7 +266,7 @@
     return false;
   }
 
-  function onChangePassword() {
+  function checkPasswordInputs() {
     const isCurrentPasswordValid = validatePassword($('#current-password').attr("id"), $('#current-password').val());
     const isNewPasswordValid = validatePassword($('#new-password').attr("id"), $('#new-password').val());
     const isConfirmPasswordValid = confirmPassword($('#confirm-new-password').val());
@@ -272,5 +276,42 @@
     }
     return false;
   }
+
+  function updateUserInfo() {
+    if (checkInputValue()) {
+      //Call api to update user info
+      const full_name = $('#full-name').val();
+      const phone_number = $('#phone-number').val();
+      const address = $('#address').val();
+
+      $.post('/api/users/update-user-info', { full_name, phone_number, address }, function (data) {
+        console.log(data)
+        if (data.status) {
+          $('#request-message').addClass('success').removeClass('error').html(data.message);
+        } else {
+          $('#request-message').addClass('error').removeClass('success').html(data.message);
+        }
+      });
+
+    }
+  }
+
+  function changePassword() {
+    if (checkPasswordInputs()) {
+      const current_password = $('#current-password').val();
+      const new_password = $('#new-password').val();
+
+      $.post('/api/users/change-password', { current_password, new_password }, function (data) {
+        console.log(data);
+        if (data.status) {
+          $('#change-password-request-message').addClass('success').removeClass('error').html(data.message);
+        } else {
+          $('#change-password-request-message').addClass('error').removeClass('success').html(data.message);
+        }
+
+      })
+    }
+  }
+
 
 </script>
