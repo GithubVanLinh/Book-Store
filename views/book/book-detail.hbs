@@ -103,27 +103,27 @@
                 </div>
                 <div class="reviews-submit">
                   <h4>Give your Review:</h4>
-                 <form action="/book/{{book._id}}/comments" method="POST">
-                  <div class="row form">
-                    {{#ifUnd user}}
-                    <div class="col-sm-6">
-                      <input type="text" placeholder="Name" name="name">
+                  <form action="/book/{{book._id}}/comments" method="POST">
+                    <div class="row form">
+                      {{#ifUnd user}}
+                      <div class="col-sm-6">
+                        <input type="text" placeholder="Name" name="name">
+                      </div>
+                      {{!-- {{else}}
+                      <div class="col-sm-6">
+                        <input type="text" placeholder="Name">
+                      </div> --}}
+                      {{/ifUnd}}
+                      {{!-- <div class="col-sm-6">
+                        <input type="email" placeholder="Email">
+                      </div> --}}
+                      <div class="col-sm-12">
+                        <textarea placeholder="Review" name="content"></textarea>
+                      </div>
+                      <div class="col-sm-12">
+                        <button class="btn" type="submit">Submit</button>
+                      </div>
                     </div>
-                    {{!-- {{else}}
-                    <div class="col-sm-6">
-                      <input type="text" placeholder="Name">
-                    </div> --}}
-                    {{/ifUnd}}
-                    {{!-- <div class="col-sm-6">
-                      <input type="email" placeholder="Email">
-                    </div> --}}
-                    <div class="col-sm-12">
-                      <textarea placeholder="Review" name="content"></textarea>
-                    </div>
-                    <div class="col-sm-12">
-                      <button class="btn" type="submit">Submit</button>
-                    </div>
-                  </div>
                   </form>
                 </div>
               </div>
@@ -144,17 +144,10 @@
               <div class="product-item">
                 <div class="product-title">
                   <a href="/book/{{this._id}}/detail">{{this.name}}</a>
-                  <div class="ratting">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                  </div>
                 </div>
                 <div class="product-image">
                   <a href="product-detail.html">
-                    <img src={{this.image}} alt="Product Image">
+                    <img src={{this.image}} alt="Product Image" style="height: 350px; object-fit:cover">
                   </a>
                   <div class="product-action">
                     <a href="#"><i class="fa fa-cart-plus"></i></a>

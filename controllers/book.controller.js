@@ -73,20 +73,23 @@ module.exports = {
   createComment: async (req, res, next) => {
     const id = req.params.id;
     const book = await BookModel.getBookById(id);
-    res.send
+
     if (!req.user) {
       book.comments = [...book.comments, req.body];
     }
     else {
-      let comment;
-      // comment.name = req.user.full_name;
-      comment.content = req.body;
-      res.send(book.comments);
+      let comment = {};
+      console.log(req.user.full_name);
+      comment.name = req.user.full_name;
+      
+      comment.content = req.body.content;
+      // res.send(book.comments);
       // book.comments = [...book.comments, req.body, name: req.user.full_name];
 
-      // book.comments = [...book.comments, comment];
+      book.comments = [...book.comments, comment];
     }
-    // await book.save();
-    //res.redirect(`/book/${id}/detail`);
+    await book.save();
+    // res.json(book);
+    res.redirect(`/book/${id}/detail`);
   }
 };
