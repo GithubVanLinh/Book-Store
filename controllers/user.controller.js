@@ -98,7 +98,7 @@ module.exports = {
   },
 
   resetPassword: async (req, res, next) => {
-    const { userId, password, confirmPassword } = req.body;
+    const { userId, password } = req.body;
     // const userInfo = await userModel.getActivedUserInfo(userId);
 
     if (await userModel.getActivedUserInfo(userId)) {
