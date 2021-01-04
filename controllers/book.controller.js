@@ -1,6 +1,6 @@
 const BookModel = require("../models/book.model");
 const CategoryModel = require("../models/category.model");
-const Comment = require("../databases/comment");
+// const Comment = require("../databases/comment");
 
 module.exports = {
   getBookList: async (req, res, next) => {
@@ -60,33 +60,18 @@ module.exports = {
     // res.send(bookData);
 
   },
-  // 
-  // 
-  // 
-  // 
-  // 
-  // 
-  // 
-  // 
-  // 
-  //   can su chu y cua kiet
-  createComment: async (req, res, next) => {
-    const id = req.params.id;
-    const book = await BookModel.getBookById(id);
-    res.send
-    if (!req.user) {
-      book.comments = [...book.comments, req.body];
-    }
-    else {
-      let comment;
-      // comment.name = req.user.full_name;
-      comment.content = req.body;
-      res.send(book.comments);
-      // book.comments = [...book.comments, req.body, name: req.user.full_name];
 
-      // book.comments = [...book.comments, comment];
-    }
-    // await book.save();
-    //res.redirect(`/book/${id}/detail`);
-  }
+  // createComment: async (req, res, next) => {
+  //   const bookId = req.params.id;
+  //   const comment = { ...req.body }
+
+  //   if (req.user) {
+  //     comment.name = req.user.full_name;
+  //   }
+
+  //   const result = await BookModel.addComment(bookId, comment);
+
+  // }
+
+
 };

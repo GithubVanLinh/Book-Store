@@ -2,7 +2,7 @@ const Book = require("../databases/book");
 const Author = require("../databases/author");
 const Category = require("../databases/category");
 const mongoose = require("mongoose");
-const dateFormat = require ("dateformat");
+const dateFormat = require("dateformat");
 
 const LIMIT = 6;
 
@@ -117,7 +117,7 @@ module.exports = {
     });
     return books;
   },
-  
+
   getBookById: async (_id) => {
     const books = await Book.findOne({ _id: _id, show: true })
       .populate("author")
@@ -127,15 +127,15 @@ module.exports = {
     return books;
   },
   getBookDetail: async (_id) => {
-     let book = await Book.findOne({ _id: _id, show: true }, function (err, doc) {
+    let book = await Book.findOne({ _id: _id, show: true }, function (err, doc) {
       doc.views = doc.views + 1;
       doc.save();
     })
-     book.comments.forEach(comment => {
-       comment.dateFm = dateFormat(comment.date, "dd/mm/yyyy HH:MM");
-     });
-     book.totalCmts = book.comments.length;
-     return book;
+    book.comments.forEach(comment => {
+      comment.dateFm = dateFormat(comment.date, "dd/mm/yyyy HH:MM");
+    });
+    book.totalCmts = book.comments.length;
+    return book;
   },
   // return -1 if ID has been existed
   createANewBook: async (aNewBookInfo) => {
@@ -225,4 +225,22 @@ module.exports = {
 
     return result;
   },
+
+  addComment: async (bookId, comment) => {
+    let result = false;
+
+    try {
+      const book = await Book.findOne({ _id: bookId, show: true });
+      if (book) {
+        book.comments.push(comment);
+        await book.save();
+        result = true;
+      }
+    } catch (error) {
+      console.log('Error bookModel/addComment: ', error)
+    }
+
+    return result;
+  }
+
 };

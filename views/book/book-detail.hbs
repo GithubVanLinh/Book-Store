@@ -1,5 +1,5 @@
 <!-- Breadcrumb Start -->
-<div class="breadcrumb-wrap">
+{{!-- <div class="breadcrumb-wrap">
   <div class="container-fluid">
     <ul class="breadcrumb">
       <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -7,8 +7,62 @@
       <li class="breadcrumb-item active">Product Detail</li>
     </ul>
   </div>
-</div>
+</div> --}}
 <!-- Breadcrumb End -->
+<script>
+  const fullNameRegex = /[0-9]/;
+
+  function validateFullName(fullName) {
+    let result = false;
+    if (fullName.indexOf(" ") === 0) {
+      $('#full-name-message').addClass('error').removeClass('success').html("Full name does not contain space at beginning");
+    }
+    else if (fullName.lastIndexOf(" ") === (fullName.length - 1)) {
+      $('#full-name-message').addClass('error').removeClass('success').html("Full name does not contain space at the end");
+    }
+    else if (fullName.match(fullNameRegex)) {
+      $('#full-name-message').addClass('error').removeClass('success').html("Full name contain only a-z, A-z");
+    } else {
+      $('#full-name-message').addClass('success').removeClass('error').html("");
+      result = true;
+    }
+    return result;
+  }
+
+  function validateContent(content) {
+    let result = false;
+    if (content.trim() === "") {
+      $('#content-message').addClass('error').removeClass('success').html("Invalid comment");
+    } else {
+      $('#content-message').addClass('success').removeClass('error').html("");
+      result = true;
+    }
+
+    return result;
+  }
+
+  function postComment(bookId) {
+    const name = $('#full-name').val();
+    const content = $('#content').val();
+    let isValidName = false;
+    let isValidContent = false;
+
+    if (name === undefined) {
+      isValidName = true;
+    } else {
+      isValidName = validateFullName(name);
+    }
+
+    isValidContent = validateContent(content);
+
+    if (isValidName && isValidContent) {
+      $.post('/api/book/post-comment', { bookId, name, content }, function (data) {
+        console.log(data);
+      })
+    }
+  }
+
+</script>
 
 <!-- Product Detail Start -->
 <div class="product-detail">
@@ -82,49 +136,35 @@
                   {{book.description}}
                 </p>
               </div>
-              {{!-- <div id="specification" class="container tab-pane fade">
-                <h4>Product specification</h4>
-                <ul>
-                  <li>Lorem ipsum dolor sit amet</li>
-                  <li>Lorem ipsum dolor sit amet</li>
-                  <li>Lorem ipsum dolor sit amet</li>
-                  <li>Lorem ipsum dolor sit amet</li>
-                  <li>Lorem ipsum dolor sit amet</li>
-                </ul>
-              </div> --}}
               <div id="reviews" class="container tab-pane fade">
                 <div class="reviews-submitted">
                   {{#each book.comments}}
                   <div class="reviewer">{{this.name}} <span>{{this.dateFm}}</span></div>
-                  <p>
-                    {{this.content}}
-                  </p>
+                  <p>{{this.content}}</p>
                   {{/each}}
                 </div>
                 <div class="reviews-submit">
                   <h4>Give your Review:</h4>
-                 <form action="/book/{{book._id}}/comments" method="POST">
-                  <div class="row form">
-                    {{#ifUnd user}}
-                    <div class="col-sm-6">
-                      <input type="text" placeholder="Name" name="name">
+                  {{!-- <form action="/book/{{book._id}}/comments" method="POST"> --}}
+                    <div class="row form">
+                      {{#ifUnd user}}
+                      <div class="col-sm-6">
+                        <input id="full-name" type="text" placeholder="Name" name="name"
+                          onchange="validateFullName(this.value)">
+                        <span id="full-name-message"></span>
+                      </div>
+                      {{/ifUnd}}
+                      <div class="col-sm-12">
+                        <textarea id="content" placeholder="Review" name="content"
+                          onchange="validateContent(this.value)"></textarea>
+                        <span id="content-message"></span>
+                      </div>
+                      <div class="col-sm-12">
+                        <button class="btn" onclick="postComment('{{book._id}}')">Submit</button>
+                      </div>
                     </div>
-                    {{!-- {{else}}
-                    <div class="col-sm-6">
-                      <input type="text" placeholder="Name">
-                    </div> --}}
-                    {{/ifUnd}}
-                    {{!-- <div class="col-sm-6">
-                      <input type="email" placeholder="Email">
-                    </div> --}}
-                    <div class="col-sm-12">
-                      <textarea placeholder="Review" name="content"></textarea>
-                    </div>
-                    <div class="col-sm-12">
-                      <button class="btn" type="submit">Submit</button>
-                    </div>
-                  </div>
-                  </form>
+                    {{!--
+                  </form> --}}
                 </div>
               </div>
             </div>

@@ -278,6 +278,7 @@
   }
 
   function updateUserInfo() {
+    $('#request-message').html("");
     if (checkInputValue()) {
       //Call api to update user info
       const full_name = $('#full-name').val();
@@ -297,6 +298,7 @@
   }
 
   function changePassword() {
+    $('#change-password-request-message').html("");
     if (checkPasswordInputs()) {
       const current_password = $('#current-password').val();
       const new_password = $('#new-password').val();
@@ -305,6 +307,9 @@
         console.log(data);
         if (data.status) {
           $('#change-password-request-message').addClass('success').removeClass('error').html(data.message);
+          $('#current-password').val("")
+          $('#new-password').val("")
+          $('#confirm-new-password').val("")
         } else {
           $('#change-password-request-message').addClass('error').removeClass('success').html(data.message);
         }

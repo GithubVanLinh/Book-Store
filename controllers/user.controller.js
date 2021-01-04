@@ -29,16 +29,8 @@ module.exports = {
   addNewAccount: async (req, res, next) => {
     const userInfo = req.body;
     const result = await userModel.addNewAccount(userInfo);
-    switch (result.status) {
-      case 1:
-        res.send("Please confirm email!");
-        break;
-      case -1:
-        res.render("user/register", { message: result.err })
-        break;
-      default:
-        res.redirect("/register");
-    }
+
+    res.render('user/register', { message: result.message })
   },
 
   logout: (req, res, next) => {
@@ -103,7 +95,7 @@ module.exports = {
 
     if (await userModel.getActivedUserInfo(userId)) {
       if (await userModel.changePassword(userId, password)) {
-        res.render('user/login', {message: "Reset password successfully"});
+        res.render('user/login', { message: "Reset password successfully" });
       }
     }
     res.render('user/reset-password', { message: "Change password failed" })

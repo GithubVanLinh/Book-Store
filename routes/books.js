@@ -4,13 +4,13 @@ const BookController = require('../controllers/book.controller');
 
 
 
-/* GET home page. */
+/* GET book list. */
 router.get('/', BookController.getBookList);
 
-/* GET home page. */
+/* GET book detail. */
 router.get('/:id/detail', BookController.getBookById);
 
-router.post('/:id/comments', BookController.createComment);
+// router.post('/:id/comments', BookController.createComment);
 
 // router.get('/search', BookController.searchBooks);
 module.exports = router;

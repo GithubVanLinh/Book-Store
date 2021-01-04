@@ -16,7 +16,7 @@
     <div class="row d-flex justify-content-center">
       <div class="col-lg-6">
         <h6 id="message" style="text-align: center; color: red;font-weight: bold">{{message}}</h6>
-        <form action="/users/register" method="POST" id="fm-register" onsubmit="return onSubmit()">
+        <form action="/users/register" method="POST" id="fm-register" onsubmit="return checkValidInputs()">
           <div class="register-form">
             <div class="row">
               <div class="col-md-6">
@@ -48,6 +48,7 @@
               </div>
             </div>
           </div>
+
         </form>
 
       </div>
@@ -55,11 +56,9 @@
   </div>
 </div>
 <!-- Login End -->
-{{!-- <script src="../../public/javascripts/register.js"></script> --}}
+{{!--
+<script src="../../public/javascripts/register.js"></script> --}}
 <script>
-  //let isFullNameValid = false;
-  //let isPasswordValid = false;
-  //let isFullNameValid = false;
   const fullNameRegex = /[0-9]/;
   let isEmailExist = false;
 
@@ -119,7 +118,7 @@
     return result;
   }
 
-  function onSubmit() {
+  function checkValidInputs() {
     const isFullNameValid = validateFullName($('#full-name').val());
     const isPassWordValid = validatePassword($('#password').val());
     const isRetypeValid = confirmPassword($('#retype').val());
@@ -128,5 +127,17 @@
     }
     return false;
   }
+
+  //function sendRegistrationRequest() {
+  //  if (checkValidInputs()) {
+  //    const full_name = $('#full-name').val();
+  //    const email = $('#email').val();
+  //    const password = $('#password').val();
+  //
+  //    $.post('/api/users/register-account', { full_name, email, password }, function (data) {
+  //      console.log(data);
+  //    })
+  //  }
+  //}
 
 </script>

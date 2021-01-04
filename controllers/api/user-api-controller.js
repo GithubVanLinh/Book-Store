@@ -47,6 +47,12 @@ exports.sendEmailResetPassword = async (req, res, next) => {
   res.json(result);
 }
 
+// exports.registerAccount = async (req, res, next) => {
+//   const userInfo = req.body;
+//   const result = await userModel.addNewAccount(userInfo);
+//   res.json(result);
+// }
+
 // exports.resetPassword = async (req, res, next) => {
 //   const { userId, password } = req.body;
 //   const result = {status: false, message: "Reset password faild"}

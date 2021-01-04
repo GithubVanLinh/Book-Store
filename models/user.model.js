@@ -47,7 +47,7 @@ module.exports = {
 
     if (await checkEmailExists(accountInfo.email)) {
       console.log("addNewAccount.", "Email has been used");
-      return { status: -1, err: "Email is already used" };
+      return { status: false, message: "Email is already used" };
     }
 
     //hash password
@@ -59,7 +59,7 @@ module.exports = {
     // // console.log(host);
     const link = host + "/users/verify?id=" + userRes._id + "&email=" + userRes.email;
     const message = {
-      from: process.env.MAIL_USERNAME,
+      from: process.env.MAIL_USERNAME || "technigang007@gmail.com",
       to: userRes.email,
       subject: "BookStore - Verify your account",
       text: link,
@@ -70,8 +70,8 @@ module.exports = {
     let transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.MAIL_USERNAME,
-        pass: process.env.MAIL_PASSWORD
+        user: process.env.MAIL_USERNAME || "technigang007@gmail.com",
+        pass: process.env.MAIL_PASSWORD || "3besthandsomeguy"
       }
     });
     // send mail with defined transport object
@@ -80,10 +80,10 @@ module.exports = {
       // console.log("Message sent: %s", info.messageId);
     } catch (error) {
       console.log("Error send email: ", error)
-      return { status: -1, err: "Can not send email" }
+      return { status: false, message: "Can not send email" }
     }
 
-    return { status: 1, err: "" };
+    return { status: true, message: "Email has sent" };
   },
 
   register: async (user) => {
@@ -128,7 +128,7 @@ module.exports = {
 
     const query = { _id: userId, status: "Active" };
     const hashedPassword = await userService.hashPassword(newPassword);
-    
+
     if (hashedPassword) {
       try {
         await User.findOneAndUpdate(query, { password: hashedPassword });
@@ -141,7 +141,7 @@ module.exports = {
   },
 
   updateUserInfo: async (userId, info) => {
-    let result = {status: false, message: ""};
+    let result = { status: false, message: "" };
 
     const query = { _id: userId, status: "Active" }
     try {
