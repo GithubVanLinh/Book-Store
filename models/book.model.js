@@ -241,6 +241,10 @@ module.exports = {
     }
 
     return result;
+  },
+
+  paginateBookComments: async (bookId, page, limit = 4) => {
+    
   }
 
 };

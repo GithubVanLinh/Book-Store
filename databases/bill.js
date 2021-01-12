@@ -4,12 +4,30 @@ const User = require("./user");
 const { Schema } = mongoose;
 
 const BillSchema = new Schema({
-  id: String,
-  book: Book,
-  amount: Number,
+  userId: {
+    type: mongoose.Types.ObjectId,
+    ref: User
+  },
+  books: [
+    {
+      bookId: {
+        type: mongoose.Types.ObjectId,
+        ref: Book
+      },
+      count: Number
+    }
+  ],
+  delivery_address: String,
+  booking_date: {
+    type: Date,
+    default: Date.now()
+  },
+  update_date: Date,
   total_price: Number,
-  day_trading: Date,
-  user: User,
+  status: {
+    type: String,
+    default: "Pending"
+  },
   show: {
     type: Boolean,
     default: true

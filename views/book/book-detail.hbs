@@ -142,6 +142,34 @@
                   <div class="reviewer">{{this.name}} <span>{{this.dateFm}}</span></div>
                   <p>{{this.content}}</p>
                   {{/each}}
+
+                  <!-- Pagination Start -->
+                  <div class="col-md-12">
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination justify-content-center">
+                        {{#ifeq hasPrevPage true}}
+                        <li class="page-item">
+                          <button class="page-link" onclick="goToPage({{prevPage}})" tabindex="-1">Prev</button>
+                        </li>
+                        <li class="page-item">
+                          <button onclick="goToPage({{prevPage}})" class="page-link">{{prevPage}}</button>
+                        </li>
+                        {{/ifeq}}
+                        <li class="page-item active"><a class="page-link">{{page}}</a></li>
+                        {{#ifeq hasNextPage true}}
+                        <li class="page-item">
+                          <button class="page-link" onclick="goToPage({{nextPage}})">{{nextPage}}</button>
+                        </li>
+                        <li class="page-item">
+                          <button onclick="goToPage({{nextPage}})" class="page-link">Next</button>
+                        </li>
+                        {{/ifeq}}
+
+                      </ul>
+                    </nav>
+                  </div>
+                  <!-- Pagination End -->
+
                 </div>
                 <div class="reviews-submit">
                   <h4>Give your Review:</h4>

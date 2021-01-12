@@ -4,7 +4,7 @@ const CartController = require('../controllers/cart.controller');
 const {authLogin } = require('../middlewares/auth.mdw');
 
 /* GET home page. */
-router.get('/',authLogin, CartController.getCart)
+router.get('/', CartController.getCart)
 
 router.get('/checkout',authLogin, CartController.checkout);
 
