@@ -22,7 +22,7 @@ module.exports = {
   },
 
   isAuthenticated: (req, res, next) => {
-    if(req.isAuthenticated()) {
+    if (req.isAuthenticated()) {
       next();
     } else {
       res.render('user/login');

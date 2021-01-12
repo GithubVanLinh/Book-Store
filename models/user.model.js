@@ -153,5 +153,39 @@ module.exports = {
     }
 
     return result;
+  },
+
+  addBookToCart: async (userId, goods) => {
+    let result = { status: false, message: "Failed" }
+
+    const query = { _id: userId, status: "Active" }
+    try {
+      const user = await User.findOne(query);
+      if (user) {
+        // check if book is already exists in cart
+        let isExists = false; 
+        for (let g of user.cart) {
+          if (g.bookId.toString() === goods.bookId) {
+            
+            isExists = true;
+            g.amount += goods.amount;
+            break;
+          }
+        }
+        // if book is not exists in cart
+        if (!isExists) {
+          user.cart.push(goods);
+        }
+        await user.save();
+
+        result.status = true;
+        result.message = "Successfully!"
+      }
+    } catch (error) {
+      result.message = "Server error"
+    }
+
+    return result;
   }
+
 };

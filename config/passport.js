@@ -8,7 +8,7 @@ passport.use(new LocalStrategy(
   { usernameField: "email" },
   async function (username, password, done) {
     const user = await userService.checkCredential(username, password)
-    
+
     console.log("checkCredential result: ", user);
 
     if (!user) {
