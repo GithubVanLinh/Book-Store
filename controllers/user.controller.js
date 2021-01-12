@@ -1,3 +1,5 @@
+const passport = require("passport");
+
 const userModel = require("../models/user.model");
 const userService = require("../service/user-service")
 
@@ -24,6 +26,29 @@ module.exports = {
     res.render("user/login");
   },
 
+  postLogin: async (req, res, next) => {
+    passport.authenticate("local", async function (err, user, info) {
+      if (err) { return next(err); }
+      if (!user) { return res.redirect('/login'); }
+
+      req.logIn(user, async function (err) {
+        if (err) return next(err);
+
+        //update cart after login
+        if (req.session.cart && req.session.cart.length > 0) {
+          const result = await userModel.updateCartAfterLogin(user._id, req.session.cart);
+          // console.log(result);
+          req.session.cart = [];
+        }
+
+        return res.redirect('/');
+      });
+
+    })(req, res, next);
+  },
+
+
+
   register: (req, res, next) => res.render("user/register"),
 
   addNewAccount: async (req, res, next) => {
@@ -35,6 +60,7 @@ module.exports = {
 
   logout: (req, res, next) => {
     req.logout();
+    // req.session.cart = []
     res.redirect("/");
   },
 

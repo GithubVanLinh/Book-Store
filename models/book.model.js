@@ -244,7 +244,15 @@ module.exports = {
   },
 
   paginateBookComments: async (bookId, page, limit = 4) => {
-    
+
+  },
+
+  getBooksByIds: async (ids) => {
+    const books = await Book.find({
+      '_id': { $in: ids }
+    })
+
+    return books;
   }
 
 };

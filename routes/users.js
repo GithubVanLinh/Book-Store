@@ -8,12 +8,18 @@ const { authNotLogin, isAuthenticated } = require('../middlewares/auth.mdw');
 router.get("/", isAuthenticated, userController.getAccountInfo);
 
 router.get("/login", authNotLogin, userController.login);
-router.post("/login", authNotLogin, passport.authenticate("local", {
-  successRedirect: "/",
-  failureRedirect: "/login",
-  failureFlash: true,
-})
-);
+
+router.post("/login", authNotLogin, userController.postLogin);
+// router.post("/login", authNotLogin,
+//   passport.authenticate("local",
+//     {
+//       successRedirect: "/",
+//       failureRedirect: "/login",
+//       failureFlash: true
+//     })
+// );
+
+
 
 router.get("/register", authNotLogin, userController.register);
 router.post("/register", authNotLogin, userController.addNewAccount);

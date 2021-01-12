@@ -163,10 +163,10 @@ module.exports = {
       const user = await User.findOne(query);
       if (user) {
         // check if book is already exists in cart
-        let isExists = false; 
+        let isExists = false;
         for (let g of user.cart) {
           if (g.bookId.toString() === goods.bookId) {
-            
+
             isExists = true;
             g.amount += goods.amount;
             break;
@@ -185,6 +185,40 @@ module.exports = {
       result.message = "Server error"
     }
 
+    return result;
+  },
+
+  updateCartAfterLogin: async (userId, cart) => {
+    const query = { _id: userId, status: "Active" };
+    return await User.findOneAndUpdate(query, { cart: cart }, { new: true });
+  },
+
+  getCartDetail: async (userId) => {
+    let result = { status: false, message: "Server error" };
+    try {
+      const user = await User.findOne({ _id: userId })
+        .populate({
+          path: 'cart',
+          populate: {
+            path: 'bookId',
+            model: 'Book'
+          }
+        })
+        .exec();
+
+        console.log("User: ", user)
+
+      let totalPrice = 0;
+      for (const goods of user.cart) {
+        totalPrice += goods.bookId.price * goods.amount;
+      }
+
+      result.status = true;
+      result.message = "OK"
+      result.data = { cart: user.cart, totalPrice };
+    } catch (e) {
+      console.log("userModel/getCartDetail: ", e.toString());
+    }
     return result;
   }
 
