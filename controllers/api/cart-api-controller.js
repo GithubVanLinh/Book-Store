@@ -1,5 +1,6 @@
 // const userService = require("../../service/user-service")
 const userModel = require("../../models/user.model");
+const bookModel = require("../../models/book.model")
 
 exports.addBookToCart = async (req, res, next) => {
   const bookId = req.body.bookId;
@@ -41,41 +42,35 @@ exports.changeAmount = async (req, res, next) => {
   if (req.isAuthenticated()) {
     result = await userModel.updateGoodsAmount(req.user._id, { bookId, amount })
   } else {
-  //   //update req.session.cart
-  //   // if (!req.session.cart) {
-  //   //   req.session.cart = []
-  //   // }
-  //   for (let goods of req.session.cart) {
-  //     if (goods.bookId === bookId) {
-  //       goods.amount = amount;
-  //       break;
-  //     }
-  //   }
+    //update req.session.cart
+    for (let goods of req.session.cart) {
+      if (goods.bookId === bookId) {
+        goods.amount = amount;
+        break;
+      }
+    }
 
-  //   const cart = [...req.session.cart];
+    let cart = [];
+    for (let i = 0; i < req.session.cart.length; i++) {
+      cart.push({ ...req.session.cart[i] })
+    }
+    let ids = [];
+    for (const goods of cart) {
+      ids.push(goods.bookId);
+    }
 
-  //   let ids = [];
-  //   for (const goods of cart) {
-  //     ids.push(goods.bookId);
-  //   }
+    const books = await bookModel.getBooksByIds(ids);
+    if (books) {
+      let totalPrice = 0;
+      for (let i = 0; i < books.length; i++) {
+        cart[i].bookId = books[i];
+        totalPrice += books[i].price * cart[i].amount;
+      }
 
-  //   const books = await bookModel.getBooksByIds(ids)
-  //   // let data = { cart: [], totalPrice: 0 }
-  //   if (books) {
-  //     let totalPrice = 0;
-  //     for (let i = 0; i < books.length; i++) {
-  //       cart[i].bookId = books[i];
-  //       totalPrice += books[i].price * cart[i].amount;
-  //     }
-
-  //     result.status = true;
-  //     result.data = { cart, totalPrice }
-  //   }
-
-
-  //   result.status = true;
-  //   result.totalPri
-
+      result.status = true;
+      result.data = { cart, totalPrice };
+    }
   }
+  
   res.json(result);
 }

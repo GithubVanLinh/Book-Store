@@ -6,6 +6,8 @@ const {authLogin } = require('../middlewares/auth.mdw');
 /* GET home page. */
 router.get('/', CartController.getCart)
 
+router.post('/delete-product/:bookId', CartController.deleteProductFromCart)
+
 router.get('/checkout',authLogin, CartController.checkout);
 
 router.get('/wishlist',authLogin, CartController.wishlist);

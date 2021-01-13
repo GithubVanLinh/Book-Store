@@ -36,8 +36,6 @@ module.exports = {
         result.status = true;
         result.data = { cart, totalPrice };
       }
-      // cart = ['1', '2', '3'];
-      // result = { status: true, message: "", data: { cart, totalPrice } }
 
       console.log("cart: ", cart);
       console.log("req.session.cart: ", req.session.cart);
@@ -47,4 +45,21 @@ module.exports = {
   },
   checkout: (req, res, next) => res.render('cart/checkout'),
   wishlist: (req, res, next) => res.render('cart/wishlist'),
+
+  deleteProductFromCart: async (req, res, next) => {
+    const bookId = req.params.bookId;
+    // console.log(bookId);
+    if (req.isAuthenticated()) {
+      
+    } else {
+      for (let i = 0; i < req.session.cart.length; i++) {
+        if (req.session.cart[i].bookId === bookId) {
+          req.session.cart.splice(i, 1);
+          break;
+        }
+      }
+    }
+
+    res.redirect('/cart');
+  }
 }

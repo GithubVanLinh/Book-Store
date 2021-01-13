@@ -48,7 +48,13 @@
                     </div>
                   </td>
                   {{!-- <td>$99</td> --}}
-                  <td><button><i class="fa fa-trash"></i></button></td>
+                  <td>
+                    <form action="/cart/delete-product/{{this.bookId._id}}" method="POST">
+                      <button type="submit">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </form>
+                  </td>
                 </tr>
                 {{/each}}
                 {{/if}}
@@ -115,4 +121,6 @@
       updateTotalPrice(data.data.totalPrice);
     })
   }
+
+
 </script>
