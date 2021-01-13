@@ -2407,3 +2407,24 @@ h2 {
   color: #2ecc71;
   font-size: 13px;
 }
+
+.order-button {
+  border: none;
+  padding: 10px 20px;
+  background-color: #FF6F61;
+  color: #eee;
+  margin: auto;
+}
+
+.order-button:hover {
+  background-color: #ff4635;
+  color: black;
+}
+
+.order-disable-button {
+  border: none;
+  padding: 10px 20px;
+  color: #eee;
+  margin: auto;
+  background-color: gray;
+}

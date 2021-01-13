@@ -76,30 +76,36 @@ module.exports = {
 
   order: async (req, res, next) => {
     const { full_name, email, phone_number, address, payment } = req.body;
+    let message = "Order failed"
 
-    const cartDetail = await userModel.getCartDetail(req.user._id);
+    try {
+      const cartDetail = await userModel.getCartDetail(req.user._id);
 
-    if (cartDetail.status && cartDetail.data.cart.length > 0) {
-      const bill = {
-        userId: req.user._id,
-        books: req.user.cart,
-        delivery_address: address,
-        receiver: { full_name, phone_number },
-        total_price: cartDetail.data.totalPrice,
-        payment: payment
-      };
+      if (cartDetail.status && cartDetail.data.cart.length > 0) {
+        const bill = {
+          userId: req.user._id,
+          books: req.user.cart,
+          delivery_address: address,
+          receiver: { full_name, phone_number },
+          total_price: cartDetail.data.totalPrice,
+          payment: payment
+        };
 
-      //create bill
-      const result = await billModel.createBill(bill);
-      if (result) {
-        //update book quantity, quantity_sold
-        await bookModel.updateBooksQuantity(result.books);
-        //clear cart
-        await userModel.clearCart(req.user._id);
+        //create bill
+        const result = await billModel.createBill(bill);
+        if (result) {
+          message = "Order Success. Your order is being processed"
+          //update book quantity, quantity_sold
+          await bookModel.updateBooksQuantity(result.books);
+          //clear cart
+          await userModel.clearCart(req.user._id);
+        }
       }
+    } catch (e) {
+      console.log(e.toString())
     }
 
-    res.redirect('/cart/checkout')
+    res.render('cart/checkout-result', { message })
   }
 
 
