@@ -62,9 +62,12 @@ exports.changeAmount = async (req, res, next) => {
     const books = await bookModel.getBooksByIds(ids);
     if (books) {
       let totalPrice = 0;
-      for (let i = 0; i < books.length; i++) {
-        cart[i].bookId = books[i];
-        totalPrice += books[i].price * cart[i].amount;
+      for (let i = 0; i < cart.length; i++) {
+        const book = books.find(book => book._id.toString() === cart[i].bookId);
+        if (book) {
+          cart[i].bookId = book;
+          totalPrice += book.price * cart[i].amount;
+        }
       }
 
       result.status = true;

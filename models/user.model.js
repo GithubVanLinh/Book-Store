@@ -2,7 +2,8 @@ const nodemailer = require("nodemailer");
 
 const User = require("../databases/user");
 const userService = require("../service/user-service");
-const cartService = require("../service/cart-service")
+const cartService = require("../service/cart-service");
+const { findOneAndUpdate } = require("../databases/user");
 
 //function
 async function checkEmailExists(email) {
@@ -247,13 +248,31 @@ module.exports = {
         const totalPrice = cartService.totalPrice(user.cart);
         result.status = true;
         result.message = "Update goods amount successfully"
-        result.data = {cart: user.cart, totalPrice: totalPrice};
+        result.data = { cart: user.cart, totalPrice: totalPrice };
       }
     } catch (e) {
       console.log("userModel/updateGoodsAmount: ", e.toString());
     }
 
     return result;
+  },
+
+  deleteProductFromCart: async (userId, bookId) => {
+    const query = { _id: userId, status: "Active" };
+    try {
+      const user = await User.findOne(query);
+      if (user) {
+        for (let i = 0; i < user.cart.length; i++) {
+          if (user.cart[i].bookId.toString() === bookId) {
+            user.cart.splice(i, 1);
+            break;
+          }
+        }
+        await user.save();
+      }
+    } catch (e) {
+      console.log("userModel/deleteProductFromCart: ", e.toString());
+    }
   }
 
 };

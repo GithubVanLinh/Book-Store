@@ -28,9 +28,12 @@ module.exports = {
       // let data = { cart: [], totalPrice: 0 }
       if (books) {
         let totalPrice = 0;
-        for (let i = 0; i < books.length; i++) {
-          cart[i].bookId = books[i];
-          totalPrice += books[i].price * cart[i].amount;
+        for (let i = 0; i < cart.length; i++) {
+          const book = books.find(book => book._id.toString() === cart[i].bookId);
+          if (book) {
+            cart[i].bookId = book;
+            totalPrice += book.price * cart[i].amount;
+          }
         }
 
         result.status = true;
@@ -48,9 +51,8 @@ module.exports = {
 
   deleteProductFromCart: async (req, res, next) => {
     const bookId = req.params.bookId;
-    // console.log(bookId);
     if (req.isAuthenticated()) {
-      
+      await userModel.deleteProductFromCart(req.user._id, bookId);
     } else {
       for (let i = 0; i < req.session.cart.length; i++) {
         if (req.session.cart[i].bookId === bookId) {
