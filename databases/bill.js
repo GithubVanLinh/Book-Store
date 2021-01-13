@@ -14,16 +14,21 @@ const BillSchema = new Schema({
         type: mongoose.Types.ObjectId,
         ref: Book
       },
-      count: Number
+      amount: Number
     }
   ],
   delivery_address: String,
+  receiver: {
+    full_name: String,
+    phone_number: String
+  },
   booking_date: {
     type: Date,
     default: Date.now()
   },
   update_date: Date,
   total_price: Number,
+  payment: String,
   status: {
     type: String,
     default: "Pending"

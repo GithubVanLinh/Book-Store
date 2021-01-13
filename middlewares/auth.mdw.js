@@ -1,8 +1,8 @@
 module.exports = {
   authLogin: async (req, res, next) => {
     if (req.isAuthenticated()) {
-      res.locals.user = await req.user;
-      console.log("auth sucess");
+      // res.locals.user = await req.user;
+      // console.log("auth sucess");
       return next();
     }
     console.log("what");

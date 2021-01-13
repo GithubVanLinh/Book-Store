@@ -1,6 +1,10 @@
 const userModel = require('../models/user.model')
-const bookModel = require('../models/book.model')
+const bookModel = require('../models/book.model');
+const billModel = require('../models/bill.model')
 
+// const cartService = require('../service/cart-service')
+
+// const { getCartDetail } = require('../models/user.model');
 
 module.exports = {
   getCart: async (req, res, next) => {
@@ -46,7 +50,12 @@ module.exports = {
       // res.send(books);
     }
   },
-  checkout: (req, res, next) => res.render('cart/checkout'),
+
+  checkout: async (req, res, next) => {
+    const cartDetail = await userModel.getCartDetail(req.user._id);
+    res.render('cart/checkout', cartDetail);
+  },
+
   wishlist: (req, res, next) => res.render('cart/wishlist'),
 
   deleteProductFromCart: async (req, res, next) => {
@@ -63,5 +72,35 @@ module.exports = {
     }
 
     res.redirect('/cart');
+  },
+
+  order: async (req, res, next) => {
+    const { full_name, email, phone_number, address, payment } = req.body;
+
+    const cartDetail = await userModel.getCartDetail(req.user._id);
+
+    if (cartDetail.status && cartDetail.data.cart.length > 0) {
+      const bill = {
+        userId: req.user._id,
+        books: req.user.cart,
+        delivery_address: address,
+        receiver: { full_name, phone_number },
+        total_price: cartDetail.data.totalPrice,
+        payment: payment
+      };
+
+      //create bill
+      const result = await billModel.createBill(bill);
+      if (result) {
+        //update book quantity, quantity_sold
+        await bookModel.updateBooksQuantity(result.books);
+        //clear cart
+        await userModel.clearCart(req.user._id);
+      }
+    }
+
+    res.redirect('/cart/checkout')
   }
+
+
 }

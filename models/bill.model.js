@@ -1,9 +1,8 @@
 const Bill = require('../databases/bill');
 
 module.exports = {
-    createBill: (billData)=>{
-        console.log(billData);
-
-        Bill.create(bill)
-    }
+  createBill: async (bill) => {
+    // console.log(bill);
+    return await Bill.create(bill)
+  }
 }

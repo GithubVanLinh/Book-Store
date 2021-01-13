@@ -207,7 +207,6 @@ module.exports = {
         .exec();
 
       console.log("User: ", user)
-
       let totalPrice = 0;
       for (const goods of user.cart) {
         totalPrice += goods.bookId.price * goods.amount;
@@ -273,6 +272,11 @@ module.exports = {
     } catch (e) {
       console.log("userModel/deleteProductFromCart: ", e.toString());
     }
+  },
+
+  clearCart: async (userId) => {
+    const query = { _id: userId, status: "Active" };
+    await User.findOneAndUpdate(query, { cart: [] });
   }
 
 };

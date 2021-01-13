@@ -253,6 +253,39 @@ module.exports = {
     })
 
     return books;
+  },
+
+  updateBooksQuantity: async (items) => {
+    let ids = []
+    let quantities = []
+    let quantity_solds = []
+
+    for (const item of items) {
+      ids.push(item.bookId);
+    }
+
+    const books = await Book.find({
+      '_id': { $in: ids }
+    });
+    // -------
+
+    for (const item of items) {
+      const book = books.find(book => book._id.toString() === item.bookId.toString());
+      // console.log("book: ", book);
+      if (book) {
+        if (book.quantity <= item.amount) {
+          // quantities.push(0);
+          book.quantity = 0;
+        } else {
+          // quantities.push(book.quantity - item.amount);
+          book.quantity -= item.amount;
+        }
+        // quantity_solds.push(book.quantity_sold + item.amount);
+        book.quantity_sold += item.amount;
+        await book.save();
+      }
+    }
+
   }
 
 };
