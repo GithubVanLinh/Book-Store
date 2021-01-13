@@ -36,8 +36,7 @@ module.exports = {
 
         //update cart after login
         if (req.session.cart && req.session.cart.length > 0) {
-          const result = await userModel.updateCartAfterLogin(user._id, req.session.cart);
-          // console.log(result);
+          await userModel.updateCartAfterLogin(user._id, req.session.cart);
           req.session.cart = [];
         }
 
@@ -46,8 +45,6 @@ module.exports = {
 
     })(req, res, next);
   },
-
-
 
   register: (req, res, next) => res.render("user/register"),
 

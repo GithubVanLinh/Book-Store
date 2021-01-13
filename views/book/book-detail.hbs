@@ -107,7 +107,8 @@
                 </div>
 
                 <div class="action">
-                  <button class="btn" onclick="addBookToCart('{{book._id}}')"><i class="fa fa-shopping-cart"></i>Add to Cart</button>
+                  <button class="btn" onclick="addBookToCart('{{book._id}}')"><i class="fa fa-shopping-cart"></i>Add to
+                    Cart</button>
                   <a class="btn" href="#"><i class="fa fa-shopping-bag"></i>Buy Now</a>
                 </div>
               </div>
@@ -404,7 +405,7 @@
 <script>
   function addBookToCart(bookId) {
     const quantity = $('#quantity').val();
-    $.post('/api/cart/add-to-cart', {bookId: bookId, amount: quantity}, function(data) {
+    $.post('/api/cart/add-to-cart', { bookId: bookId, amount: quantity }, function (data) {
       console.log(data);
     })
   }

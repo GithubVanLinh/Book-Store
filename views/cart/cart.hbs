@@ -34,15 +34,17 @@
                   <td>
                     <div class="img">
                       <a href="#"><img src="{{this.bookId.image}}" alt="Image"></a>
-                      <p>{{this.bookId.name}}</p>
+                      <p><a href="/book/{{this.bookId._id}}/detail">{{this.bookId.name}}</a></p>
                     </div>
                   </td>
                   <td>{{this.bookId.price}}</td>
                   <td>
-                    <div class="qty">
-                      <button class="btn-minus"><i class="fa fa-minus"></i></button>
-                      <input type="text" value="{{this.amount}}">
-                      <button class="btn-plus"><i class="fa fa-plus"></i></button>
+                    <div class="cart-qty">
+                      <button class="cart-btn-minus" onclick="decreaseCount('{{this.bookId._id}}')"><i
+                          class="fa fa-minus"></i></button>
+                      <input id="{{this.bookId._id}}" type="text" value="{{this.amount}}">
+                      <button class="cart-btn-plus" onclick="increaseCount('{{this.bookId._id}}')"><i
+                          class="fa fa-plus"></i></button>
                     </div>
                   </td>
                   {{!-- <td>$99</td> --}}
@@ -68,9 +70,9 @@
               <div class="cart-summary">
                 <div class="cart-content">
                   <h1>Cart Summary</h1>
-                  <p>Sub Total<span>{{data.totalPrice}} VND</span></p>
+                  <p>Sub Total<span class="sum-totalPrice">{{data.totalPrice}} VND</span></p>
                   <p>Shipping Cost<span>0 VND</span></p>
-                  <h2>Grand Total<span>{{data.totalPrice}} VND</span></h2>
+                  <h2>Grand Total<span class="sum-totalPrice">{{data.totalPrice}} VND</span></h2>
                 </div>
                 <div class="cart-btn">
                   <button>Update Cart</button>
@@ -85,3 +87,32 @@
   </div>
 </div>
 <!-- Cart End -->
+<script>
+  function updateTotalPrice(newValue) {
+    $('.sum-totalPrice').html(`${newValue} VND`);
+  }
+
+  function decreaseCount(bookId) {
+    const selector = `#${bookId}`;
+    let oldValue = parseInt($(selector).val());
+    if (oldValue > 1) {
+      $(selector).val(oldValue - 1);
+      $.post('/api/cart/change-amount', { bookId: bookId, amount: oldValue - 1 }, function (data) {
+        console.log(data);
+        updateTotalPrice(data.data.totalPrice);
+      })
+    } else {
+      $('#quantity').val(0);
+    }
+  }
+
+  function increaseCount(bookId) {
+    const selector = `#${bookId}`;
+    let oldValue = parseInt($(selector).val());
+    $(selector).val(oldValue + 1);
+    $.post('/api/cart/change-amount', { bookId: bookId, amount: oldValue + 1 }, function (data) {
+      console.log(data);
+      updateTotalPrice(data.data.totalPrice);
+    })
+  }
+</script>

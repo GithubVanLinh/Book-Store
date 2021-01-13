@@ -1,9 +1,8 @@
 const nodemailer = require("nodemailer");
-const crypto = require("crypto");
 
 const User = require("../databases/user");
 const userService = require("../service/user-service");
-const { findOneAndUpdate } = require("../databases/user");
+const cartService = require("../service/cart-service")
 
 //function
 async function checkEmailExists(email) {
@@ -206,7 +205,7 @@ module.exports = {
         })
         .exec();
 
-        console.log("User: ", user)
+      console.log("User: ", user)
 
       let totalPrice = 0;
       for (const goods of user.cart) {
@@ -219,6 +218,41 @@ module.exports = {
     } catch (e) {
       console.log("userModel/getCartDetail: ", e.toString());
     }
+    return result;
+  },
+
+  updateGoodsAmount: async (userId, goods) => {
+    const result = { status: false, message: "Update goods amount failed" }
+    const query = { _id: userId, status: "Active" };
+
+    try {
+      const user = await User.findOne(query)
+        .populate({
+          path: 'cart',
+          populate: {
+            path: 'bookId',
+            model: 'Book'
+          }
+        })
+        .exec();
+      if (user) {
+        for (const g of user.cart) {
+          if (g.bookId._id.toString() === goods.bookId) {
+            g.amount = goods.amount;
+            break;
+          }
+        }
+        await user.save();
+
+        const totalPrice = cartService.totalPrice(user.cart);
+        result.status = true;
+        result.message = "Update goods amount successfully"
+        result.data = {cart: user.cart, totalPrice: totalPrice};
+      }
+    } catch (e) {
+      console.log("userModel/updateGoodsAmount: ", e.toString());
+    }
+
     return result;
   }
 

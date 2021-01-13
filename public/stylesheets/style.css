@@ -1486,7 +1486,7 @@ h2 {
   margin: 0;
 }
 
-.cart-page .table .qty {
+.cart-page .table .cart-qty {
   display: inline-block;
   width: 100px;
   font-size: 0;
@@ -1503,11 +1503,11 @@ h2 {
   border-radius: 4px;
 }
 
-.cart-page .table button.btn-minus {
+.cart-page .table button.cart-btn-minus {
   border-radius: 4px 0 0 4px;
 }
 
-.cart-page .table button.btn-plus {
+.cart-page .table button.cart-btn-plus {
   border-radius: 0 4px 4px 0;
 }
 
