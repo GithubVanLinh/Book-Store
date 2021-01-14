@@ -6,10 +6,11 @@ const { Schema } = mongoose;
 var mongoosePaginate = require('mongoose-paginate-v2');
 
 const BookSchema = new Schema({
-  id: {
-    type: String,
-    required: true,
-  },
+  // id: {
+  //   type: String,
+  //   required: true,
+  // },
+  id: String,
   name: {
     type: String,
     required: true,
