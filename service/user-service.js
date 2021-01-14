@@ -46,7 +46,7 @@ exports.hashPasswordAndCreateNewAccount = async (newUser) => {
 }
 
 exports.sendEmailResetPassword = async (userInfo) => {
-  const PORT = process.env.PORT || 3000
+  const PORT = process.env.PORT || 3000;
   const host = `http://localhost:${PORT}`;
   // // console.log(host);
   const link = host + "/users/reset-password?id=" + userInfo._id;

@@ -68,7 +68,9 @@ module.exports = {
     console.log("Message: ", message);
 
     let transporter = nodemailer.createTransport({
-      service: "gmail",
+      // service: "gmail",
+      host: 'smtp.gmail.com',
+      port: 587,
       auth: {
         user: process.env.MAIL_USERNAME || "technigang007@gmail.com",
         pass: process.env.MAIL_PASSWORD || "3besthandsomeguy"
