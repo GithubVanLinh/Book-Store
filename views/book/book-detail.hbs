@@ -67,7 +67,7 @@
 <!-- Product Detail Start -->
 <div class="product-detail">
   <div class="container-fluid">
-    <div class="row">
+    <div class="row d-flex justify-content-center">
       <div class="col-lg-8">
         <div class="product-detail-top">
           <div class="row align-items-center">
@@ -81,16 +81,10 @@
                 <div class="title">
                   <h2>{{book.name}}</h2>
                 </div>
-                <div class="ratting">
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                </div>
+            
                 <div class="price">
                   <h4>Price:</h4>
-                  <p>${{book.price}} <span></span></p>
+                  <p>{{book.price}} <span style="font-size: 20px; text-decoration:none;">VND</span></p>
                 </div>
 
                 <div class="price">
@@ -115,7 +109,7 @@
                 <div class="action">
                   <button class="btn" onclick="addBookToCart('{{book._id}}')"><i class="fa fa-shopping-cart"></i>Add to
                     Cart</button>
-                  <a class="btn" href="#"><i class="fa fa-shopping-bag"></i>Buy Now</a>
+                  {{!-- <a class="btn" href="#"><i class="fa fa-shopping-bag"></i>Buy Now</a> --}}
                 </div>
               </div>
             </div>
@@ -150,32 +144,6 @@
                   <p>{{this.content}}</p>
                   {{/each}}
 
-                  <!-- Pagination Start -->
-                  {{!-- <div class="col-md-12">
-                    <nav aria-label="Page navigation example">
-                      <ul class="pagination justify-content-center">
-                        {{#ifeq hasPrevPage true}}
-                        <li class="page-item">
-                          <button class="page-link" onclick="goToPage({{prevPage}})" tabindex="-1">Prev</button>
-                        </li>
-                        <li class="page-item">
-                          <button onclick="goToPage({{prevPage}})" class="page-link">{{prevPage}}</button>
-                        </li>
-                        {{/ifeq}}
-                        <li class="page-item active"><a class="page-link">{{page}}</a></li>
-                        {{#ifeq hasNextPage true}}
-                        <li class="page-item">
-                          <button class="page-link" onclick="goToPage({{nextPage}})">{{nextPage}}</button>
-                        </li>
-                        <li class="page-item">
-                          <button onclick="goToPage({{nextPage}})" class="page-link">Next</button>
-                        </li>
-                        {{/ifeq}}
-
-                      </ul>
-                    </nav>
-                  </div> --}}
-                  <!-- Pagination End -->
 
                 </div>
                 <div class="reviews-submit">
@@ -215,24 +183,19 @@
             {{#each relatedBooks}}
             {{#when this._id 'noteq' book._id}}
 
-            <div class="col-lg-3">
+            <div class="col-md-4">
               <div class="product-item">
-                <div class="product-title">
-                  <a href="/book/{{this._id}}/detail">{{this.name}}</a>
+                <div class="product-title" style="height: 84px;">
+                  <a href="/book/{{_id}}/detail">{{name}}</a>
                 </div>
                 <div class="product-image">
-                  <a href="product-detail.html">
-                    <img src={{this.image}} alt="Product Image" style="height: 350px; object-fit:cover">
+                  <a href="/book/{{_id}}/detail">
+                    <img height="400px" src={{image}} style="object-fit:contain" alt="Product Image">
                   </a>
-                  <div class="product-action">
-                    <a href="#"><i class="fa fa-cart-plus"></i></a>
-                    <a href="#"><i class="fa fa-heart"></i></a>
-                    <a href="#"><i class="fa fa-search"></i></a>
-                  </div>
                 </div>
                 <div class="product-price">
-                  <h3><span>$</span>{{this.price}}</h3>
-                  <a class="btn" href="#"><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                  <h3>{{price}}<span> ₫</span></h3>
+                  <a class="btn" href="/book/{{_id}}/detail"><i class="fa fa-shopping-cart"></i>Buy Now</a>
                 </div>
               </div>
             </div>
@@ -243,7 +206,7 @@
         </div>
       </div>
 
-      <!-- Side Bar Start -->
+      {{!-- <!-- Side Bar Start -->
       <div class="col-lg-4 sidebar">
         <div class="sidebar-widget category">
           <h2 class="title">Category</h2>
@@ -380,26 +343,12 @@
           <a href="#">Nam lorem</a>
         </div>
       </div>
-      <!-- Side Bar End -->
+      <!-- Side Bar End --> --}}
     </div>
   </div>
 </div>
 <!-- Product Detail End -->
 
-<!-- Brand Start -->
-<div class="brand">
-  <div class="container-fluid">
-    <div class="brand-slider">
-      <div class="brand-item"><img src="/images/brand-1.png" alt=""></div>
-      <div class="brand-item"><img src="/images/brand-2.png" alt=""></div>
-      <div class="brand-item"><img src="/images/brand-3.png" alt=""></div>
-      <div class="brand-item"><img src="/images/brand-4.png" alt=""></div>
-      <div class="brand-item"><img src="/images/brand-5.png" alt=""></div>
-      <div class="brand-item"><img src="/images/brand-6.png" alt=""></div>
-    </div>
-  </div>
-</div>
-<!-- Brand End -->
 
 <script>
   function addBookToCart(bookId) {

@@ -4,7 +4,7 @@ const Category = require("../databases/category");
 const mongoose = require("mongoose");
 const dateFormat = require("dateformat");
 
-const LIMIT = 6;
+const LIMIT = 8;
 
 //True if exists
 async function CheckBookExists(bookId) {
