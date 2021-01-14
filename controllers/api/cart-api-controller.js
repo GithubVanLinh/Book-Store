@@ -26,6 +26,7 @@ exports.addBookToCart = async (req, res, next) => {
       req.session.cart.push({ bookId, amount });
     }
 
+    result.status = true;
     result.isAuthenticated = false;
     result.cart = req.session.cart;
   }

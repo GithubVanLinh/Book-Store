@@ -7,7 +7,7 @@ const { findOneAndUpdate } = require("../databases/user");
 
 //function
 async function checkEmailExists(email) {
-  const isExists = await User.exists({ email: email, status: "Active" });
+  const isExists = await User.exists({ email: email });
   return isExists;
 }
 

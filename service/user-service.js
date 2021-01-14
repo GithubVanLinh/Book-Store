@@ -62,8 +62,8 @@ exports.sendEmailResetPassword = async (userInfo) => {
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: process.env.MAIL_USERNAME,
-      pass: process.env.MAIL_PASSWORD
+      user: process.env.MAIL_USERNAME || "technigang007@gmail.com",
+      pass: process.env.MAIL_PASSWORD || "3besthandsomeguy"
     }
   });
   // send mail with defined transport object
@@ -77,6 +77,6 @@ exports.sendEmailResetPassword = async (userInfo) => {
 }
 
 exports.checkEmailExists = async (email) => {
-  const isExists = await User.exists({ email: email, status: "Active" });
+  const isExists = await User.exists({ email: email });
   return isExists;
 }

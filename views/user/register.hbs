@@ -57,8 +57,6 @@
   </div>
 </div>
 <!-- Login End -->
-{{!--
-<script src="../../public/javascripts/register.js"></script> --}}
 <script>
   const fullNameRegex = /[0-9]/;
   let isEmailExist = false;
@@ -82,7 +80,8 @@
 
   function checkEmailExist(email) {
     //call user api to check if email is exist
-    $.getJSON('/api/users/check-email-exist', { email }, function (data) {
+    console.log(email);
+    $.post('/api/users/check-email-exist', { email }, function (data) {
       console.log(data);
       if (!data) {
         $('#email-message').addClass('success').removeClass('error').html("");
@@ -128,17 +127,5 @@
     }
     return false;
   }
-
-  //function sendRegistrationRequest() {
-  //  if (checkValidInputs()) {
-  //    const full_name = $('#full-name').val();
-  //    const email = $('#email').val();
-  //    const password = $('#password').val();
-  //
-  //    $.post('/api/users/register-account', { full_name, email, password }, function (data) {
-  //      console.log(data);
-  //    })
-  //  }
-  //}
 
 </script>
