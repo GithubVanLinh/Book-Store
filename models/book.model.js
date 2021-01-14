@@ -117,6 +117,15 @@ module.exports = {
     });
     return books;
   },
+  
+  getBooksByOptions: async (options) =>{
+    let query = {};
+    query.show = true;
+    // options.push(limit=6);
+    console.log("pre", options);
+    const books = await Book.paginate(query, options);
+    return books;
+  },
 
   getBookById: async (_id) => {
     const books = await Book.findOne({ _id: _id, show: true })

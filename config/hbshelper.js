@@ -22,20 +22,15 @@ module.exports = function (hbs) {
     return options.inverse(this);
   });
 
-  hbs.registerHelper("get", (a, b, options) => {
-    if (a) {
-
-    }
-  });
 
   hbs.registerHelper("when", function (operand_1, operator, operand_2, options) {
     var operators = {
-      'eq': function (l, r) { return l == r; },
-      'noteq': function (l, r) { return l != r; },
-      'gt': function (l, r) { return Number(l) > Number(r); },
-      'or': function (l, r) { return l || r; },
-      'and': function (l, r) { return l && r; },
-      '%': function (l, r) { return (l % r) === 0; }
+     'eq': function(l,r) { return l == r; },
+     'noteq': function(l,r) { return l !== r; },
+     'gt': function(l,r) { return Number(l) > Number(r); },
+     'or': function(l,r) { return l || r; },
+     'and': function(l,r) { return l && r; },
+     '%': function(l,r) { return (l % r) === 0; }
     }
       , result = operators[operator](operand_1, operand_2);
 

@@ -60,18 +60,26 @@ module.exports = {
     // res.send(bookData);
 
   },
+  createComment: async (req, res, next) => {
+    const id = req.params.id;
+    const book = await BookModel.getBookById(id);
 
-  // createComment: async (req, res, next) => {
-  //   const bookId = req.params.id;
-  //   const comment = { ...req.body }
+    if (!req.user) {
+      book.comments = [...book.comments, req.body];
+    }
+    else {
+      let comment = {};
+      console.log(req.user.full_name);
+      comment.name = req.user.full_name;
+      
+      comment.content = req.body.content;
+      // res.send(book.comments);
+      // book.comments = [...book.comments, req.body, name: req.user.full_name];
 
-  //   if (req.user) {
-  //     comment.name = req.user.full_name;
-  //   }
-
-  //   const result = await BookModel.addComment(bookId, comment);
-
-  // }
-
-
+      book.comments = [...book.comments, comment];
+    }
+    await book.save();
+    // res.json(book);
+    res.redirect(`/book/${id}/detail`);
+  }
 };
