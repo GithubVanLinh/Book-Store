@@ -2,7 +2,7 @@ const userService = require("../../service/user-service")
 const userModel = require("../../models/user.model");
 
 exports.checkEmailExist = async (req, res, next) => {
-  const email = req.query.email;
+  const email = req.body.email;
   const result = await userService.checkEmailExists(email);
   res.json(result);
 }
