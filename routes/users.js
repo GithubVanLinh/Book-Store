@@ -34,6 +34,8 @@ router.get("/forgot-password", userController.renderForgotPasswordScreen)
 router.get("/reset-password", userController.renderNewPasswordScreen)
 router.post("/reset-password", userController.resetPassword)
 
+router.get("/order", isAuthenticated, userController.renderOrderHistory)
+
 // router.post("/update-account", isAuthenticated, userController.updateUserInfo)
 // router.post("/change-password", isAuthenticated, userController.changePassword)
 

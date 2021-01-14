@@ -1,7 +1,10 @@
 const passport = require("passport");
+const billModel = require("../models/bill.model");
 
 const userModel = require("../models/user.model");
 const userService = require("../service/user-service")
+
+const dateFormat = require('dateformat')
 
 module.exports = {
   getAccountInfo: (req, res, next) =>
@@ -123,5 +126,32 @@ module.exports = {
     }
     res.render('user/reset-password', { message: "Change password failed" })
   },
+
+  renderOrderHistory: async (req, res, next) => {
+    const bills = await billModel.getBillByUser(req.user._id);
+
+    let result = [];
+    for (let bill of bills) {
+      let bookNames = [];
+      for(let book of bill.books) {
+        bookNames.push(book.bookId.name);
+      }
+
+      result.push({
+        _id: bill._id,
+        books: bookNames.join(', '),
+        booking_date: dateFormat(bill.booking_date, "dd/mm/yyyy"),
+        total_price: bill.total_price,
+        status: bill.status
+      });
+    }
+
+    console.log(result);
+
+
+    // res.render
+    res.render('bill/bill-history', { result })
+    // res.send(result);
+  }
 
 };
