@@ -55,7 +55,8 @@ module.exports = {
 
     //send mail
     const PORT = process.env.PORT || 3000
-    const host = `http://localhost:${PORT}`;
+    // const host = `http://localhost:${PORT}`;
+    const host = 'https://techiegang.herokuapp.com';
     // // console.log(host);
     const link = host + "/users/verify?id=" + userRes._id + "&email=" + userRes.email;
     const message = {

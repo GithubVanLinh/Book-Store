@@ -47,7 +47,8 @@ exports.hashPasswordAndCreateNewAccount = async (newUser) => {
 
 exports.sendEmailResetPassword = async (userInfo) => {
   const PORT = process.env.PORT || 3000;
-  const host = `http://localhost:${PORT}`;
+  // const host = `http://localhost:${PORT}`;
+  const host = 'https://techiegang.herokuapp.com';
   // // console.log(host);
   const link = host + "/users/reset-password?id=" + userInfo._id;
   const message = {
