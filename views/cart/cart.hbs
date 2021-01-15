@@ -42,8 +42,9 @@
                     <div class="cart-qty">
                       <button class="cart-btn-minus" onclick="decreaseCount('{{this.bookId._id}}')"><i
                           class="fa fa-minus"></i></button>
-                      <input id="{{this.bookId._id}}" type="text" value="{{this.amount}}">
-                      <button class="cart-btn-plus" onclick="increaseCount('{{this.bookId._id}}')"><i
+                      <input id="{{this.bookId._id}}" type="text" value="{{this.amount}}" readonly>
+                      <button class="cart-btn-plus"
+                        onclick="increaseCount('{{this.bookId._id}}', {{this.bookId.quantity}})"><i
                           class="fa fa-plus"></i></button>
                     </div>
                   </td>
@@ -106,19 +107,19 @@
         console.log(data);
         updateTotalPrice(data.data.totalPrice);
       })
-    } else {
-      $('#quantity').val(0);
     }
   }
 
-  function increaseCount(bookId) {
+  function increaseCount(bookId, bookQuantity) {
     const selector = `#${bookId}`;
     let oldValue = parseInt($(selector).val());
-    $(selector).val(oldValue + 1);
-    $.post('/api/cart/change-amount', { bookId: bookId, amount: oldValue + 1 }, function (data) {
-      console.log(data);
-      updateTotalPrice(data.data.totalPrice);
-    })
+    if (oldValue < bookQuantity) {
+      $(selector).val(oldValue + 1);
+      $.post('/api/cart/change-amount', { bookId: bookId, amount: oldValue + 1 }, function (data) {
+        console.log(data);
+        updateTotalPrice(data.data.totalPrice);
+      })
+    }
   }
 
 

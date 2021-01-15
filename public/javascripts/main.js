@@ -203,17 +203,15 @@
     // Quantity
     $('.qty button').on('click', function () {
         var $button = $(this);
-        var oldValue = $button.parent().find('input').val();
+        var oldValue = parseInt($button.parent().find('input').val());
         if ($button.hasClass('btn-plus')) {
-            var newVal = parseFloat(oldValue) + 1;
+            var newVal = oldValue + 1;
         } else {
-            if (oldValue > 0) {
-                var newVal = parseFloat(oldValue) - 1;
-            } else {
-                newVal = 0;
+            if (oldValue > 1) {
+                var newVal = oldValue - 1;
             }
         }
-        $button.parent().find('input').val(newVal);
+        $button.parent().find('input').val(newVal.toString());
     });
     
     

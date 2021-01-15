@@ -58,6 +58,9 @@
     if (isValidName && isValidContent) {
       $.post('/api/book/post-comment', { bookId, name, content }, function (data) {
         console.log(data);
+        if(data) {
+          alert("Post comment successfully")
+        }
       })
     }
   }
@@ -96,7 +99,7 @@
                   <h4>Amount:</h4>
                   <div class="qty">
                     <button class="btn-minus"><i class="fa fa-minus"></i></button>
-                    <input id="quantity" type="text" value="1">
+                    <input id="quantity" type="text" value="1" readonly>
                     <button class="btn-plus"><i class="fa fa-plus"></i></button>
                   </div>
                 </div>
@@ -107,7 +110,7 @@
                 </div>
 
                 <div class="action">
-                  <button class="btn" onclick="addBookToCart('{{book._id}}')"><i class="fa fa-shopping-cart"></i> Add to
+                  <button class="btn" onclick="addBookToCart('{{book._id}}', {{book.quantity}})"><i class="fa fa-shopping-cart"></i> Add to
                     Cart</button>
                   {{!-- <a class="btn" href="#"><i class="fa fa-shopping-bag"></i>Buy Now</a> --}}
                 </div>
@@ -351,13 +354,17 @@
 
 
 <script>
-  function addBookToCart(bookId) {
+  function addBookToCart(bookId, bookQuantity) {
     const quantity = $('#quantity').val();
-    $.post('/api/cart/add-to-cart', { bookId: bookId, amount: quantity }, function (data) {
-      console.log(data);
-      if(data.status) {
-        alert("Add to cart successfully")
-      }
-    })
+    if(quantity > bookQuantity) {
+      alert('The shop does not have enough books');
+    } else {
+      $.post('/api/cart/add-to-cart', { bookId: bookId, amount: quantity }, function (data) {
+        console.log(data);
+        if(data.status) {
+          alert("Add to cart successfully")
+        }
+      })
+    }
   }
 </script>
